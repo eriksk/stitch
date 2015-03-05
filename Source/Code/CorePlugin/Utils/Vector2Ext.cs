@@ -17,5 +17,10 @@ namespace TextureStitch.Utils
         {
             return (float)Math.Atan2(instance.Y - other.Y, instance.X - other.X);
         }
+
+        public static bool Near(this Vector2 instance, Vector2 other, float maxDistance)
+        {
+            return instance.DistanceTo(other) <= maxDistance;
+        }
     }
 }

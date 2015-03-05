@@ -26,6 +26,7 @@ namespace TextureStitch.Editor.CamViews
 
         private bool _leftControlDown;
         private Vector2 _mousePos;
+        private bool _showMeshes;
 
         public override string StateName
         {
@@ -68,6 +69,14 @@ namespace TextureStitch.Editor.CamViews
             //};
             //_toolstrip.Items.Add(toolButtonCreateShape);
 
+            var toolButtonCreateShape = new ToolStripButton("Show meshes", null, OnShowMeshesSelected)
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                AutoToolTip = true,
+                Text = "Show meshes"
+            };
+            _toolstrip.Items.Add(toolButtonCreateShape);
+
 
             _toolstrip.ResumeLayout(true);
             View.Controls.Add(_toolstrip);
@@ -78,6 +87,11 @@ namespace TextureStitch.Editor.CamViews
             this.InvalidateSelectionStats();
             DualityEditorApp.SelectionChanged += this.EditorForm_SelectionChanged;
             DualityEditorApp.ObjectPropertyChanged += EditorForm_ObjectPropertyChanged;
+        }
+
+        private void OnShowMeshesSelected(object sender, EventArgs e)
+        {
+            _showMeshes = !_showMeshes;
         }
 
         private void OnNormalSelectionToolstripSelected(object sender, EventArgs e)
@@ -354,6 +368,11 @@ namespace TextureStitch.Editor.CamViews
                 var stitches = meshNodeWithGameObject.GameObject.GetComponent<StitchedTextureRenderer>();
                 if (stitches == null) continue;
 
+                if (_showMeshes)
+                {
+                    RenderMeshes(canvas, stitches);
+                }
+
                 var points = stitches.Points;
                 for (int i = 0; i < points.Count - 1; i++)
                 {
@@ -384,6 +403,11 @@ namespace TextureStitch.Editor.CamViews
                     canvas.DrawText(new FormattedText("Add node"), mPos.X + 24, mPos.Y + 24, 0, null, Alignment.TopLeft, true);
                 }
             }
+        }
+
+        private void RenderMeshes(Canvas canvas, StitchedTextureRenderer stitches)
+        {
+            // TODO: don't always calculate meshes, do that when dirty, use the mesh data here to draw debug lines
         }
     }
 }

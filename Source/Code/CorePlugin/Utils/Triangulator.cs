@@ -21,20 +21,24 @@ namespace TextureStitch.Utils
             return triangles.Select(x => new Triangle(
                 new Vector3(x.X[0], x.Y[0], 0f),
                 new Vector3(x.X[1], x.Y[1], 0f),
-                new Vector3(x.X[2], x.Y[2], 0f) 
+                new Vector3(x.X[2], x.Y[2], 0f)
                 ));
         }
     }
 
-    public struct Triangle
+    public class Triangle
     {
         public Vector3 Pos1, Pos2, Pos3;
+        public ColorRgba Col1, Col2, Col3;
 
         public Triangle(Vector3 pos1, Vector3 pos2, Vector3 pos3)
         {
             Pos1 = pos1;
             Pos2 = pos2;
             Pos3 = pos3;
+            Col1 = ColorRgba.White;
+            Col2 = ColorRgba.White;
+            Col3 = ColorRgba.White;
         }
 
         public Vector2 Center

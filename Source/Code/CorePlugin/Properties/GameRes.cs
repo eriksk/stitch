@@ -15,6 +15,52 @@ namespace GameRes
 			}
 		}
 		public static class Textures {
+			public static class Grass_rayman {
+				public static Duality.ContentRef<Duality.Resources.Material> bottom_rocks_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Grass_rayman\bottom_rocks.Material.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Pixmap> bottom_rocks_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Grass_rayman\bottom_rocks.Pixmap.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Texture> bottom_rocks_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\Grass_rayman\bottom_rocks.Texture.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Material> fill_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Grass_rayman\fill.Material.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Pixmap> fill_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Grass_rayman\fill.Pixmap.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Texture> fill_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\Grass_rayman\fill.Texture.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Material> top_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Grass_rayman\top.Material.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Pixmap> top_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Grass_rayman\top.Pixmap.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Texture> top_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\Grass_rayman\top.Texture.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Material> top_left_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Grass_rayman\top_left.Material.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Pixmap> top_left_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Grass_rayman\top_left.Pixmap.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Texture> top_left_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\Grass_rayman\top_left.Texture.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Material> top_right_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Grass_rayman\top_right.Material.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Pixmap> top_right_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Grass_rayman\top_right.Pixmap.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Texture> top_right_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\Grass_rayman\top_right.Texture.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Material> top_rocks_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Grass_rayman\top_rocks.Material.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Pixmap> top_rocks_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Grass_rayman\top_rocks.Pixmap.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Texture> top_rocks_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\Grass_rayman\top_rocks.Texture.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Material> top_rocks_2_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Grass_rayman\top_rocks_2.Material.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Pixmap> top_rocks_2_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Grass_rayman\top_rocks_2.Pixmap.res"); }}
+				public static Duality.ContentRef<Duality.Resources.Texture> top_rocks_2_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\Grass_rayman\top_rocks_2.Texture.res"); }}
+				public static void LoadAll() {
+					bottom_rocks_Material.MakeAvailable();
+					bottom_rocks_Pixmap.MakeAvailable();
+					bottom_rocks_Texture.MakeAvailable();
+					fill_Material.MakeAvailable();
+					fill_Pixmap.MakeAvailable();
+					fill_Texture.MakeAvailable();
+					top_Material.MakeAvailable();
+					top_Pixmap.MakeAvailable();
+					top_Texture.MakeAvailable();
+					top_left_Material.MakeAvailable();
+					top_left_Pixmap.MakeAvailable();
+					top_left_Texture.MakeAvailable();
+					top_right_Material.MakeAvailable();
+					top_right_Pixmap.MakeAvailable();
+					top_right_Texture.MakeAvailable();
+					top_rocks_Material.MakeAvailable();
+					top_rocks_Pixmap.MakeAvailable();
+					top_rocks_Texture.MakeAvailable();
+					top_rocks_2_Material.MakeAvailable();
+					top_rocks_2_Pixmap.MakeAvailable();
+					top_rocks_2_Texture.MakeAvailable();
+				}
+			}
 			public static class Placeholders {
 				public static Duality.ContentRef<Duality.Resources.Material> fill_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Placeholders\fill.Material.res"); }}
 				public static Duality.ContentRef<Duality.Resources.Pixmap> fill_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Placeholders\fill.Pixmap.res"); }}
@@ -102,6 +148,7 @@ namespace GameRes
 			public static Duality.ContentRef<Duality.Resources.Pixmap> top_right_cap_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\top_right_cap.Pixmap.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Texture> top_right_cap_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\top_right_cap.Texture.res"); }}
 			public static void LoadAll() {
+				Grass_rayman.LoadAll();
 				Placeholders.LoadAll();
 				Rocks.LoadAll();
 				grass_Material.MakeAvailable();

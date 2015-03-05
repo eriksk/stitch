@@ -1,7 +1,7 @@
 ﻿<root dataType="Struct" type="Duality.Resources.Material" id="129723834">
   <info dataType="Struct" type="Duality.Resources.BatchInfo" id="427169525">
     <dirtyFlag dataType="Enum" type="Duality.Resources.BatchInfo+DirtyFlag" name="None" value="0" />
-    <hashCode dataType="Int">728093371</hashCode>
+    <hashCode dataType="Int">1502895845</hashCode>
     <mainColor dataType="Struct" type="Duality.Drawing.ColorRgba">
       <A dataType="Byte">255</A>
       <B dataType="Byte">255</B>
@@ -15,14 +15,11 @@
       <header />
       <body>
         <mainTex dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Texture]]">
-          <contentPath dataType="String">Data\Textures\Rocks\rock_top_left.Texture.res</contentPath>
+          <contentPath dataType="String">Data\Textures\Grass_rayman\top_left.Texture.res</contentPath>
         </mainTex>
       </body>
     </textures>
-    <uniforms dataType="Struct" type="System.Collections.Generic.Dictionary`2[[System.String],[System.Single[]]]" id="649525530" surrogate="true">
-      <header />
-      <body />
-    </uniforms>
+    <uniforms />
   </info>
   <sourcePath />
 </root>

@@ -33,7 +33,7 @@ namespace TextureStitch.Components
         public List<MeshNode> Points { get; set; }
 
         [NonSerialized]
-        private IEnumerable<Triangle> _triangles;
+        private List<Triangle> _triangles;
             
         [NonSerialized]
         private bool _dirtyVertices = false;
@@ -44,7 +44,8 @@ namespace TextureStitch.Components
         public Vector2 FillUvOffset { get; set; }
         public float FillScale { get; set; }
 
-        public float TopOffset { get; set; }
+        public float LeftCapPadding { get; set; }
+        public float RightCapPadding { get; set; }
 
         /// <summary>
         /// In degrees
@@ -169,6 +170,27 @@ namespace TextureStitch.Components
             return MathHelper.AngleInRange(angle, -TopThresHold, TopThresHold);
         }
 
+        private bool HasSideSideNeighborLeft(int i)
+        {
+            var leftNode = i == 0 ? Points[Points.Count - 1] : Points[i - 1];
+            var rightNode = Points[i];
+
+            float angle = leftNode.Pos.AngleTo(rightNode.Pos);
+
+            return MathHelper.AngleInRange(angle, -TopThresHold, TopThresHold);
+        }
+
+        private bool HasSideSideNeighborRight(int i)
+        {
+            var leftIndex = i == Points.Count - 1 ? 0 : i + 1;
+            var leftNode = Points[leftIndex];
+            var rightNode = leftIndex + 1 > Points.Count - 1 ? Points[0] : Points[leftIndex + 1];
+
+            float angle = leftNode.Pos.AngleTo(rightNode.Pos);
+
+            return MathHelper.AngleInRange(angle, -TopThresHold, TopThresHold);
+        }
+
         private void RenderSides(IDrawDevice device, float offset)
         {
             // Preprocess Coords
@@ -192,10 +214,28 @@ namespace TextureStitch.Components
 
                 int repeatCount = (int)(width / (texture.PixelWidth * 0.8f)) + 1;
 
-                vertices[0].Pos = new Vector3(-width, -height / 2f, offset);
-                vertices[1].Pos = new Vector3(-width, height / 2f, offset);
-                vertices[2].Pos = new Vector3(0, height / 2f, offset);
-                vertices[3].Pos = new Vector3(0, -height / 2f, offset);
+                // TODO: create another way of generating the meshes 
+                //float horizontalOffsetLeft = 0;
+                //float horizontalOffsetLeft2 = 0;
+                //float horizontalOffsetRight = 0;
+                //float horizontalOffsetRight2 = 0;
+
+                //if (HasSideSideNeighborRight(i))
+                //{
+                //    horizontalOffsetLeft = -(float)Math.Tan(-angle) * height / 2f;
+                //    horizontalOffsetLeft2 = -(float)Math.Tan(angle) * height / 2f;
+                //}
+
+                //if (HasSideSideNeighborLeft(i))
+                //{
+                //    horizontalOffsetRight = (float)Math.Tan(-angle) * height / 2f;
+                //    horizontalOffsetRight2 = (float)Math.Tan(angle) * height / 2f;
+                //}
+
+                vertices[0].Pos = new Vector3(/*horizontalOffsetLeft2 + */-width, -height / 2f, offset);
+                vertices[1].Pos = new Vector3(/*horizontalOffsetLeft + */-width, height / 2f, offset);
+                vertices[2].Pos = new Vector3(0/*horizontalOffsetRight2*/, height / 2f, offset);
+                vertices[3].Pos = new Vector3(0/*horizontalOffsetRight */, -height / 2f, offset);
 
                 vertices[0].Color = SideMaterial.Res.MainColor * p2.Color * ColorTint;
                 vertices[1].Color = SideMaterial.Res.MainColor * p2.Color * ColorTint;
@@ -254,10 +294,28 @@ namespace TextureStitch.Components
 
                 int repeatCount = (int)(width / (texture.PixelWidth)) + 1;
 
-                vertices[0].Pos = new Vector3(-TopOffset, -height / 2f, offset);
-                vertices[1].Pos = new Vector3(-TopOffset, height / 2f, offset);
-                vertices[2].Pos = new Vector3(width + TopOffset * 2f, height / 2f, offset);
-                vertices[3].Pos = new Vector3(width + TopOffset * 2f, -height / 2f, offset);
+                // TODO: connect vertices to next or/and previous mesh
+                float horizontalOffsetRight = 0f;
+                float horizontalOffsetRight2 = 0f;
+                float horizontalOffsetLeft = 0f;
+                float horizontalOffsetLeft2 = 0f;
+
+                if (HasTopSideNeighborRight(i))
+                {
+                    horizontalOffsetLeft =  -(float)Math.Tan(-angle) * height / 2f;
+                    horizontalOffsetLeft2 = -(float)Math.Tan(angle) * height / 2f;
+                }
+
+                if (HasTopSideNeighborLeft(i))
+                {
+                    horizontalOffsetRight = (float)Math.Tan(-angle) * height / 2f;
+                    horizontalOffsetRight2 = (float)Math.Tan(angle) * height / 2f;
+                }
+
+                vertices[0].Pos = new Vector3(horizontalOffsetLeft2, -height / 2f, offset);
+                vertices[1].Pos = new Vector3(horizontalOffsetLeft, height / 2f, offset);
+                vertices[2].Pos = new Vector3(width + horizontalOffsetRight2, height / 2f, offset);
+                vertices[3].Pos = new Vector3(width + horizontalOffsetRight, -height / 2f, offset);
 
                 vertices[0].Color = SideMaterial.Res.MainColor * p2.Color * ColorTint;
                 vertices[1].Color = SideMaterial.Res.MainColor * p2.Color * ColorTint;
@@ -288,12 +346,14 @@ namespace TextureStitch.Components
                         Matrix4.CreateScale(actualScale, actualScale, actualScale));
                 }
 
+                //VisualLog.Default.DrawPolygon(0f, 0f, 0f, vertices.Select(x => x.Pos.Xy).ToArray());
+
                 device.AddVertices(TopMaterial, VertexMode.Quads, vertices);
 
                 if (!HasTopSideNeighborLeft(i))
-                    RenderTopCap(device, p1, p2, false, offset - 1);
+                    RenderTopCap(device, p1, p2, false, offset - 0.1f);
                 if (!HasTopSideNeighborRight(i))
-                    RenderTopCap(device, p1, p2, true, offset - 1);
+                    RenderTopCap(device, p1, p2, true, offset - 0.1f);
             }
         }
 
@@ -318,10 +378,10 @@ namespace TextureStitch.Components
 
             if (left)
             {
-                vertices[0].Pos = new Vector3(-width/2f  , -height / 2f, offset);
-                vertices[1].Pos = new Vector3(-width / 2f, height / 2f, offset);
-                vertices[2].Pos = new Vector3(width / 2f, height / 2f, offset);
-                vertices[3].Pos = new Vector3(width / 2f, -height / 2f, offset);
+                vertices[0].Pos = new Vector3(-width, -height / 2f, offset);
+                vertices[1].Pos = new Vector3(-width, height / 2f, offset);
+                vertices[2].Pos = new Vector3(0, height / 2f, offset);
+                vertices[3].Pos = new Vector3(0, -height / 2f, offset);
             }
             else
             {
@@ -330,6 +390,22 @@ namespace TextureStitch.Components
                 vertices[2].Pos = new Vector3(width, height/2f, offset);
                 vertices[3].Pos = new Vector3(width, -height/2f, offset);
             }
+
+            if (left)
+            {
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i].Pos.X += LeftCapPadding;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i].Pos.X -= RightCapPadding;
+                }
+            }
+
 
             vertices[0].Color = color * point.Color * ColorTint;
             vertices[1].Color = color * point.Color * ColorTint;
@@ -392,8 +468,11 @@ namespace TextureStitch.Components
                 {
                     var point = vertices[i];
                     vertices[i].TexCoord = (new Vector2(point.Pos.X / FillMaterial.Res.MainTexture.Res.PixelWidth, point.Pos.Y / FillMaterial.Res.MainTexture.Res.PixelHeight) + (FillUvOffset * 0.01f)) * -FillScale;
-                    vertices[i].Color = FillMaterial.Res.MainColor * /* triangle color? */ ColorTint;
                 }
+
+                vertices[0].Color = FillMaterial.Res.MainColor * triangle.Col1 * ColorTint;
+                vertices[1].Color = FillMaterial.Res.MainColor * triangle.Col2 * ColorTint;
+                vertices[2].Color = FillMaterial.Res.MainColor * triangle.Col3 * ColorTint;
 
                 for (int j = 0; j < vertices.Length; j++)
                 {
@@ -409,8 +488,33 @@ namespace TextureStitch.Components
 
         private void CleanVertices()
         {
-            _triangles = Triangulator.Triangulate(Points.Select(x => x.Pos)).ToArray();
+            _triangles = Triangulator.Triangulate(Points.Select(x => x.Pos)).ToList();
+            CalculateColorsForTriangles();
             _dirtyVertices = false;
+        }
+
+        private void CalculateColorsForTriangles()
+        {
+            float nearThreshold = 10f;
+            for (int i = 0; i < _triangles.Count; i++)
+            {
+                var triangle = _triangles[i];
+                foreach (var meshNode in Points)
+                {
+                    if (meshNode.Pos.Near(triangle.Pos1.Xy, nearThreshold))
+                    {
+                        triangle.Col1 = meshNode.Color;
+                    }
+                    if (meshNode.Pos.Near(triangle.Pos2.Xy, nearThreshold))
+                    {
+                        triangle.Col2 = meshNode.Color;
+                    }
+                    if (meshNode.Pos.Near(triangle.Pos3.Xy, nearThreshold))
+                    {
+                        triangle.Col3 = meshNode.Color;
+                    }
+                }
+            }
         }
 
         public void OnShutdown(ShutdownContext context)

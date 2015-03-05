@@ -11,7 +11,7 @@
     <Y dataType="Float">177</Y>
   </size>
   <sourcePath />
-  <texSizeMode dataType="Enum" type="Duality.Resources.Texture+SizeMode" name="Enlarge" value="0" />
+  <texSizeMode dataType="Enum" type="Duality.Resources.Texture+SizeMode" name="NonPowerOfTwo" value="2" />
   <wrapX dataType="Enum" type="OpenTK.Graphics.OpenGL.TextureWrapMode" name="ClampToEdge" value="33071" />
   <wrapY dataType="Enum" type="OpenTK.Graphics.OpenGL.TextureWrapMode" name="ClampToEdge" value="33071" />
 </root>
