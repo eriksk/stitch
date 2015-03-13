@@ -229,8 +229,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">8798.025</X>
-                    <Y dataType="Float">-1655.59131</Y>
+                    <X dataType="Float">9158.061</X>
+                    <Y dataType="Float">-1942.37231</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="4226072938">
@@ -349,8 +349,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">2301.57935</X>
-                    <Y dataType="Float">-1511.7406</Y>
+                    <X dataType="Float">2249.51465</X>
+                    <Y dataType="Float">-1498.72449</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="3288828590">
@@ -361,8 +361,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">2335.18066</X>
-                    <Y dataType="Float">-2333.91919</Y>
+                    <X dataType="Float">2257.332</X>
+                    <Y dataType="Float">-2338.54468</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="811651068">
@@ -397,8 +397,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">407.3839</X>
-                    <Y dataType="Float">-1813.97009</Y>
+                    <X dataType="Float">385.018158</X>
+                    <Y dataType="Float">-1835.94324</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="3706916998">
@@ -421,8 +421,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">-1116.10242</X>
-                    <Y dataType="Float">-1902.06836</Y>
+                    <X dataType="Float">-996.458862</X>
+                    <Y dataType="Float">-1877.23669</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2622530890">
