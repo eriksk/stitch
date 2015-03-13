@@ -24,6 +24,8 @@ namespace TextureStitch.Components
         public ContentRef<Material> BottomMaterial { get; set; }
         public ContentRef<Material> SideMaterial { get; set; }
         public ContentRef<Material> FillMaterial { get; set; }
+        public ContentRef<Material> LeftCapMaterial { get; set; }
+        public ContentRef<Material> RightCapMaterial { get; set; }
 
         public Vector2 FillUvOffset { get; set; }
         public float FillScale { get; set; }
@@ -142,6 +144,15 @@ namespace TextureStitch.Components
             canvas.State.ColorTint = new ColorRgba(1f, 1f, 0f);
             IterateSegments((point1, point2, i) =>
             {
+                var angle = point1.Pos.AngleTo(point2.Pos);
+                var side = GetSideFromAngle(angle);
+
+                bool useMiterLeft = GetSideFromAngle(PreviousNode(point1).Pos.AngleTo(point1.Pos)) == side;
+                bool useMiterRight = GetSideFromAngle(point2.Pos.AngleTo(NextNode(point2).Pos)) == side;
+
+                bool useLeftCap = !useMiterRight && (side == Side.Bottom || side == Side.Top);
+                bool useRightCap =!useMiterLeft && (side == Side.Bottom || side == Side.Top);
+
                 var height = TopMaterial.IsAvailable ? TopMaterial.Res.MainTexture.Res.PixelHeight : 32f;
 
                 float distance = point1.Pos.DistanceTo(point2.Pos);
@@ -158,6 +169,11 @@ namespace TextureStitch.Components
                     var p1 = localNodes[k];
                     var p2 = localNodes[k + 1];
                     var p3 = localNodes[k + 2];
+
+                    if (k == 1 && !useMiterLeft)
+                        p0 = localNodes[k];
+                    if (k == localNodes.Count - 3 && !useMiterRight)
+                        p3 = localNodes[k + 1];
 
                     // 1) define the line between the two points
                     var line = (p2 - p1).Normalized;
@@ -201,7 +217,6 @@ namespace TextureStitch.Components
                     verts[3] = new Vector2(miter2Start.X, miter2Start.Y);
 
 
-
                     //for (int j = 0; j < verts.Length; j++)
                     //{
                     //    verts[j] = Vector2.Transform(verts[j],
@@ -214,8 +229,55 @@ namespace TextureStitch.Components
                     canvas.DrawLine(verts[0].X, verts[0].Y, 0f, verts[3].X, verts[3].Y, 0f);
                     canvas.DrawLine(verts[1].X, verts[1].Y, 0f, verts[2].X, verts[2].Y, 0f);
                 }
-            });
 
+                float capZOffset = -0.5f;
+
+                canvas.State.ColorTint = new ColorRgba(0f, 1f, 0f);
+                if (useLeftCap && LeftCapMaterial.IsAvailable)
+                {
+                    var material = LeftCapMaterial;
+                    var texture = material.Res.MainTexture.Res;
+                    float width = texture.PixelWidth;
+                    float halfHeight = texture.PixelHeight * 0.5f;
+
+                    var vertices = _vertexCache.Next(4);
+                    vertices[0].Pos = new Vector3(-width, -halfHeight, z + capZOffset);
+                    vertices[1].Pos = new Vector3(-width, halfHeight, z + capZOffset);
+                    vertices[2].Pos = new Vector3(0, halfHeight, z + capZOffset);
+                    vertices[3].Pos = new Vector3(0, -halfHeight, z + capZOffset);
+
+                    for (int j = 0; j < vertices.Length; j++)
+                    {
+                        vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
+                            Matrix4.CreateRotationZ(angle) *
+                            Matrix4.CreateTranslation(new Vector3(point2.Pos)));
+                    }
+
+                    canvas.DrawPolygon(vertices.Select(x => x.Pos.Xy).ToArray(), 0f, 0f, 0f);
+                }
+                if (useRightCap && RightCapMaterial.IsAvailable)
+                {
+                    var material = RightCapMaterial;
+                    var texture = material.Res.MainTexture.Res;
+                    float width = texture.PixelWidth;
+                    float halfHeight = texture.PixelHeight * 0.5f;
+
+                    var vertices = _vertexCache.Next(4);
+                    vertices[0].Pos = new Vector3(0, -halfHeight, z + capZOffset);
+                    vertices[1].Pos = new Vector3(0, halfHeight, z + capZOffset);
+                    vertices[2].Pos = new Vector3(width, halfHeight, z + capZOffset);
+                    vertices[3].Pos = new Vector3(width, -halfHeight, z + capZOffset);
+
+                    for (int j = 0; j < vertices.Length; j++)
+                    {
+                        vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
+                            Matrix4.CreateRotationZ(angle) *
+                            Matrix4.CreateTranslation(new Vector3(point1.Pos)));
+                    }
+
+                    canvas.DrawPolygon(vertices.Select(x => x.Pos.Xy).ToArray(), 0f, 0f, 0f);
+                }
+            });
 
             // poly lines
             canvas.State.ColorTint = ColorRgba.Red;

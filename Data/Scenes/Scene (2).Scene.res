@@ -313,8 +313,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">4096.04834</X>
-                    <Y dataType="Float">-2006.201</Y>
+                    <X dataType="Float">4065.78735</X>
+                    <Y dataType="Float">-1999.47644</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="1454463364">
@@ -349,8 +349,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">2771.84</X>
-                    <Y dataType="Float">-2315.18555</Y>
+                    <X dataType="Float">2301.57935</X>
+                    <Y dataType="Float">-1511.7406</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="3288828590">
@@ -361,8 +361,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">2148.34082</X>
-                    <Y dataType="Float">-2348.2915</Y>
+                    <X dataType="Float">2335.18066</X>
+                    <Y dataType="Float">-2333.91919</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="811651068">
@@ -373,8 +373,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">1518.377</X>
-                    <Y dataType="Float">-2338.43579</Y>
+                    <X dataType="Float">1398.83521</X>
+                    <Y dataType="Float">-2318.1145</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2772533170">
@@ -397,8 +397,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">222.615158</X>
-                    <Y dataType="Float">-2039.08655</Y>
+                    <X dataType="Float">407.3839</X>
+                    <Y dataType="Float">-1813.97009</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="3706916998">
@@ -409,8 +409,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">-286.328156</X>
-                    <Y dataType="Float">-1858.2428</Y>
+                    <X dataType="Float">-275.0987</X>
+                    <Y dataType="Float">-1863.56238</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="884534516">
@@ -421,8 +421,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">-968.83844</X>
-                    <Y dataType="Float">-1862.40393</Y>
+                    <X dataType="Float">-1116.10242</X>
+                    <Y dataType="Float">-1902.06836</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2622530890">
@@ -468,6 +468,12 @@
               <X dataType="Float">0</X>
               <Y dataType="Float">0</Y>
             </_x003C_FillUvOffset_x003E_k__BackingField>
+            <_x003C_LeftCapMaterial_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
+              <contentPath dataType="String">Data\Textures\Grass_rayman\top_left.Material.res</contentPath>
+            </_x003C_LeftCapMaterial_x003E_k__BackingField>
+            <_x003C_RightCapMaterial_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
+              <contentPath dataType="String">Data\Textures\Grass_rayman\top_right.Material.res</contentPath>
+            </_x003C_RightCapMaterial_x003E_k__BackingField>
             <_x003C_SegmentSplitSize_x003E_k__BackingField dataType="Float">512</_x003C_SegmentSplitSize_x003E_k__BackingField>
             <_x003C_SideMaterial_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
               <contentPath dataType="String">Data\Textures\Grass_rayman\top_rocks.Material.res</contentPath>
