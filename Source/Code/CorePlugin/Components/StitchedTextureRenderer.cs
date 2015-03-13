@@ -149,6 +149,178 @@ namespace TextureStitch.Components
             RenderTops(device, -0.2f);
         }
 
+        public void DrawDebugData(Canvas canvas)
+        {
+            float z = GameObj.Transform.Pos.Z - 1f;
+
+            // Preprocess Coords
+            Vector3 actualPosition = GameObj.Transform.Pos;
+            float actualScale = 1f;
+            canvas.DrawDevice.PreprocessCoords(ref actualPosition, ref actualScale);
+
+            ColorRgba nodeColor = ColorRgba.White;
+            ColorRgba lineColor = ColorRgba.White;
+            var meshOutlineColor = new ColorRgba(0f, 1f, 1f);
+
+            // all points
+            foreach (var point in Points)
+            {
+                canvas.State.ColorTint = nodeColor;
+                canvas.FillCircle(point.Pos.X, point.Pos.Y, z, 8f);
+            }
+
+            canvas.State.ColorTint = lineColor;
+            // poly lines
+            for (int i = 0; i < Points.Count; i++)
+            {
+                var p1 = Points[i];
+                var p2 = i == Points.Count - 1 ? Points[0] : Points[i + 1];
+                canvas.DrawDashLine(p1.Pos.X, p1.Pos.Y, z, p2.Pos.X, p2.Pos.Y, z);
+            }
+
+            Func<int, Tuple<Vector2, Vector2>> GetLine =
+                i =>
+                    new Tuple<Vector2, Vector2>(Points[i].Pos, i == Points.Count - 1 ? Points[0].Pos : Points[i + 1].Pos);
+
+            canvas.State.ColorTint = meshOutlineColor;
+            // meshes
+            for (int i = 0; i < Points.Count; i++)
+            {
+                var p1 = Points[i];
+                var p2 = i == Points.Count - 1 ? Points[0] : Points[i + 1];
+
+                var length = p1.Pos.DistanceTo(p2.Pos);
+                var angle = p1.Pos.AngleTo(p2.Pos);
+                var sideType = GetSideFromAngle(angle);
+                //float theta = GetLine(i -)// we neewd to theta for each side of the rect, different tangents.
+
+                var height = 0f;
+
+                switch (sideType)
+                {
+                    case Side.Left:
+                    case Side.Right:
+                        height = SideMaterial.Res.MainTexture.Res.PixelHeight;
+                        break;
+                    case Side.Top:
+                        height = TopMaterial.Res.MainTexture.Res.PixelHeight;
+                        break;
+                }
+
+                height = 256f; // hard set for now until calcs are ok.
+
+
+                var vertices = new Vector3[4];
+
+                vertices[0] = new Vector3(0, -height, z);
+                vertices[1] = new Vector3(0, 0, z);
+                vertices[2] = new Vector3(length, 0, z);
+                vertices[3] = new Vector3(length, -height, z);
+
+
+                float lineCrossX;
+                float lineCrossY;
+
+                float lineCross2X;
+                float lineCross2Y;
+
+                {
+                    var line1 = GetLine(i);
+                    var line2 = GetLine(i == Points.Count - 1 ? 0 : i + 1);
+
+                    var line1Ang = line1.Item1.AngleTo(line1.Item2);
+                    var line2Ang = line2.Item1.AngleTo(line2.Item2);
+
+                    Vector2 lineOffset =
+                        new Vector2((float) Math.Cos(line1Ang + MathF.DegToRad(90f)),
+                            (float) Math.Sin(line1Ang + MathF.DegToRad(90f)))*-height;
+                    Vector2 line2Offset =
+                        new Vector2((float) Math.Cos(line2Ang + MathF.DegToRad(90f)),
+                            (float) Math.Sin(line2Ang + MathF.DegToRad(90f)))*-height;
+
+                    MathF.LinesCross(
+                        line1.Item1.X + lineOffset.X, line1.Item1.Y + lineOffset.Y, line1.Item2.X + lineOffset.X,
+                        line1.Item2.Y + lineOffset.Y,
+                        line2.Item1.X + line2Offset.X, line2.Item1.Y + line2Offset.Y, line2.Item2.X + line2Offset.X,
+                        line2.Item2.Y + line2Offset.Y,
+                        out lineCrossX, out lineCrossY, true);
+
+                    canvas.State.ColorTint = ColorRgba.Red;
+                    canvas.FillCircle(lineCrossX, lineCrossY, z, 16f);
+                }
+
+                {
+                    var line1 = GetLine(i == 0 ? Points.Count - 1 : i - 1);
+                    var line2 = GetLine(i);
+
+                    var line1Ang = line1.Item1.AngleTo(line1.Item2);
+                    var line2Ang = line2.Item1.AngleTo(line2.Item2);
+
+                    Vector2 lineOffset =
+                        new Vector2((float)Math.Cos(line1Ang + MathF.DegToRad(90f)),
+                            (float)Math.Sin(line1Ang + MathF.DegToRad(90f))) * -height;
+                    Vector2 line2Offset =
+                        new Vector2((float)Math.Cos(line2Ang + MathF.DegToRad(90f)),
+                            (float)Math.Sin(line2Ang + MathF.DegToRad(90f))) * -height;
+
+                    MathF.LinesCross(
+                        line1.Item1.X + lineOffset.X, line1.Item1.Y + lineOffset.Y, line1.Item2.X + lineOffset.X,
+                        line1.Item2.Y + lineOffset.Y,
+                        line2.Item1.X + line2Offset.X, line2.Item1.Y + line2Offset.Y, line2.Item2.X + line2Offset.X,
+                        line2.Item2.Y + line2Offset.Y,
+                        out lineCross2X, out lineCross2Y, true);
+
+                    canvas.State.ColorTint = ColorRgba.Blue;
+                    canvas.FillCircle(lineCross2X, lineCross2Y, z, 16f);
+                }
+                //// I think this is correct but the wrong angle, use the theta between the lines instead.
+                //float tangent = MathF.Cos(angle);// MathF.Cos(angle);
+
+                //float offsetX = tangent * height / 2f;
+
+                //vertices[0] = Vector3.Transform(vertices[0], Matrix4.CreateTranslation(-offsetX, 0f, 0f));
+                //vertices[1] = Vector3.Transform(vertices[1], Matrix4.CreateTranslation(0, 0f, 0f));
+                //vertices[2] = Vector3.Transform(vertices[2], Matrix4.CreateTranslation(0, 0f, 0f));
+                //vertices[3] = Vector3.Transform(vertices[3], Matrix4.CreateTranslation(offsetX, 0f, 0f));
+
+                for (int j = 0; j < vertices.Length; j++)
+                {
+                    // rotate and transform to world pos
+                    vertices[j] = Vector3.Transform(vertices[j], 
+                        Matrix4.CreateRotationZ(angle) *
+                        Matrix4.CreateTranslation(p2.Pos.X, p2.Pos.Y, 0f));
+
+
+                    
+                    // transform to local position
+                    //vertices[j] = Vector3.Transform(vertices[j], 
+                    //    Matrix4.CreateTranslation(p2.Pos.X, p2.Pos.Y, 0f) * 
+                    //    Matrix4.CreateScale(actualScale, actualScale, actualScale)/* *
+                    //    Matrix4.CreateTranslation(actualPosition.X, actualPosition.Y, actualPosition.Z)*/);
+                }
+
+                vertices[0].X = lineCrossX;
+                vertices[0].Y = lineCrossY;
+                vertices[3].X = lineCross2X;
+                vertices[3].Y = lineCross2Y;
+
+                canvas.State.ColorTint = meshOutlineColor; 
+                canvas.DrawPolygon(vertices.Select(x => x.Xy).ToArray(), 0, 0, 0);
+            }
+        }
+
+        private Side GetSideFromAngle(float angle)
+        {
+            if(!MathHelper.AngleInRange(angle, -TopThresHold, TopThresHold))
+                return Side.Left;
+            if (MathHelper.AngleInRange(angle, -TopThresHold, TopThresHold))
+                return Side.Top;
+
+            // TODO: bottom
+
+            return Side.Top;
+        }
+
         private bool HasTopSideNeighborRight(int i)
         {
             var leftIndex = i == Points.Count - 1 ? 0 : i + 1;
@@ -214,28 +386,10 @@ namespace TextureStitch.Components
 
                 int repeatCount = (int)(width / (texture.PixelWidth * 0.8f)) + 1;
 
-                // TODO: create another way of generating the meshes 
-                //float horizontalOffsetLeft = 0;
-                //float horizontalOffsetLeft2 = 0;
-                //float horizontalOffsetRight = 0;
-                //float horizontalOffsetRight2 = 0;
-
-                //if (HasSideSideNeighborRight(i))
-                //{
-                //    horizontalOffsetLeft = -(float)Math.Tan(-angle) * height / 2f;
-                //    horizontalOffsetLeft2 = -(float)Math.Tan(angle) * height / 2f;
-                //}
-
-                //if (HasSideSideNeighborLeft(i))
-                //{
-                //    horizontalOffsetRight = (float)Math.Tan(-angle) * height / 2f;
-                //    horizontalOffsetRight2 = (float)Math.Tan(angle) * height / 2f;
-                //}
-
-                vertices[0].Pos = new Vector3(/*horizontalOffsetLeft2 + */-width, -height / 2f, offset);
-                vertices[1].Pos = new Vector3(/*horizontalOffsetLeft + */-width, height / 2f, offset);
-                vertices[2].Pos = new Vector3(0/*horizontalOffsetRight2*/, height / 2f, offset);
-                vertices[3].Pos = new Vector3(0/*horizontalOffsetRight */, -height / 2f, offset);
+                vertices[0].Pos = new Vector3(-width, -height / 2f, offset);
+                vertices[1].Pos = new Vector3(-width, height / 2f, offset);
+                vertices[2].Pos = new Vector3(0, height / 2f, offset);
+                vertices[3].Pos = new Vector3(0, -height / 2f, offset);
 
                 vertices[0].Color = SideMaterial.Res.MainColor * p2.Color * ColorTint;
                 vertices[1].Color = SideMaterial.Res.MainColor * p2.Color * ColorTint;
@@ -255,10 +409,20 @@ namespace TextureStitch.Components
                 vertices[2].TexCoord = uvs.BottomRight;
                 vertices[3].TexCoord = uvs.TopRight;
 
+                //for (int j = 0; j < vertices.Length; j++)
+                //{
+                //    // rotate and transform to world pos
+                //    vertices[j].Pos =Vector3.Transform(vertices[j].Pos,
+                //        Matrix4.CreateRotationZ(angle));
+
+                //    // transform to local position
+                //    vertices[j].Pos = actualPosition + Vector3.Transform(vertices[j].Pos, Matrix4.CreateTranslation(p1.Pos.X, p1.Pos.Y, 0f) *
+                //        Matrix4.CreateScale(actualScale, actualScale, actualScale));
+                //}
                 for (int j = 0; j < vertices.Length; j++)
                 {
                     // rotate and transform to world pos
-                    vertices[j].Pos =Vector3.Transform(vertices[j].Pos,
+                    vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
                         Matrix4.CreateRotationZ(angle));
 
                     // transform to local position
@@ -300,16 +464,18 @@ namespace TextureStitch.Components
                 float horizontalOffsetLeft = 0f;
                 float horizontalOffsetLeft2 = 0f;
 
+                float tangent = (float) Math.Sin(angle)/(float) Math.Cos(angle);
+
                 if (HasTopSideNeighborRight(i))
                 {
-                    horizontalOffsetLeft =  -(float)Math.Tan(-angle) * height / 2f;
-                    horizontalOffsetLeft2 = -(float)Math.Tan(angle) * height / 2f;
+                    horizontalOffsetLeft = tangent * height / 2f;
+                    horizontalOffsetLeft2 = -tangent * height / 2f;
                 }
 
                 if (HasTopSideNeighborLeft(i))
                 {
-                    horizontalOffsetRight = (float)Math.Tan(-angle) * height / 2f;
-                    horizontalOffsetRight2 = (float)Math.Tan(angle) * height / 2f;
+                    horizontalOffsetRight = -tangent * height / 2f;
+                    horizontalOffsetRight2 = tangent * height / 2f;
                 }
 
                 vertices[0].Pos = new Vector3(horizontalOffsetLeft2, -height / 2f, offset);

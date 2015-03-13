@@ -123,15 +123,33 @@ namespace GameRes
 					rock_top_right_Texture.MakeAvailable();
 				}
 			}
+			public static Duality.ContentRef<Duality.Resources.Material> bricks_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\bricks.Material.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Pixmap> bricks_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\bricks.Pixmap.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Texture> bricks_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\bricks.Texture.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Material> bricks_top_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\bricks_top.Material.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Pixmap> bricks_top_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\bricks_top.Pixmap.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Texture> bricks_top_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\bricks_top.Texture.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Material> grass_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\grass.Material.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Pixmap> grass_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\grass.Pixmap.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Texture> grass_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\grass.Texture.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Material> grass_custom_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\grass_custom.Material.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Pixmap> grass_custom_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\grass_custom.Pixmap.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Texture> grass_custom_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\grass_custom.Texture.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Material> grass_strip_tiled_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\grass_strip_tiled.Material.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Pixmap> grass_strip_tiled_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\grass_strip_tiled.Pixmap.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Texture> grass_strip_tiled_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\grass_strip_tiled.Texture.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Material> grass_top_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\grass_top.Material.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Pixmap> grass_top_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\grass_top.Pixmap.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Texture> grass_top_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\grass_top.Texture.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Material> prototype_blue_32x32_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\prototype_blue_32x32.Material.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Pixmap> prototype_blue_32x32_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\prototype_blue_32x32.Pixmap.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Texture> prototype_blue_32x32_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\prototype_blue_32x32.Texture.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Material> rocks_side_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\rocks_side.Material.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Pixmap> rocks_side_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\rocks_side.Pixmap.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Texture> rocks_side_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\rocks_side.Texture.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Material> side_custom_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\side_custom.Material.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Pixmap> side_custom_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\side_custom.Pixmap.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Texture> side_custom_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\side_custom.Texture.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Material> stones_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\stones.Material.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Pixmap> stones_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\stones.Pixmap.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Texture> stones_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\stones.Texture.res"); }}
@@ -141,6 +159,9 @@ namespace GameRes
 			public static Duality.ContentRef<Duality.Resources.Material> Stone_Top_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\Stone_Top.Material.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Pixmap> Stone_Top_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\Stone_Top.Pixmap.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Texture> Stone_Top_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\Stone_Top.Texture.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Material> the_tree_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\the_tree.Material.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Pixmap> the_tree_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\the_tree.Pixmap.res"); }}
+			public static Duality.ContentRef<Duality.Resources.Texture> the_tree_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\the_tree.Texture.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Material> top_left_cap_Material { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Material>(@"Data\Textures\top_left_cap.Material.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Pixmap> top_left_cap_Pixmap { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Pixmap>(@"Data\Textures\top_left_cap.Pixmap.res"); }}
 			public static Duality.ContentRef<Duality.Resources.Texture> top_left_cap_Texture { get { return Duality.ContentProvider.RequestContent<Duality.Resources.Texture>(@"Data\Textures\top_left_cap.Texture.res"); }}
@@ -151,15 +172,33 @@ namespace GameRes
 				Grass_rayman.LoadAll();
 				Placeholders.LoadAll();
 				Rocks.LoadAll();
+				bricks_Material.MakeAvailable();
+				bricks_Pixmap.MakeAvailable();
+				bricks_Texture.MakeAvailable();
+				bricks_top_Material.MakeAvailable();
+				bricks_top_Pixmap.MakeAvailable();
+				bricks_top_Texture.MakeAvailable();
 				grass_Material.MakeAvailable();
 				grass_Pixmap.MakeAvailable();
 				grass_Texture.MakeAvailable();
+				grass_custom_Material.MakeAvailable();
+				grass_custom_Pixmap.MakeAvailable();
+				grass_custom_Texture.MakeAvailable();
+				grass_strip_tiled_Material.MakeAvailable();
+				grass_strip_tiled_Pixmap.MakeAvailable();
+				grass_strip_tiled_Texture.MakeAvailable();
 				grass_top_Material.MakeAvailable();
 				grass_top_Pixmap.MakeAvailable();
 				grass_top_Texture.MakeAvailable();
 				prototype_blue_32x32_Material.MakeAvailable();
 				prototype_blue_32x32_Pixmap.MakeAvailable();
 				prototype_blue_32x32_Texture.MakeAvailable();
+				rocks_side_Material.MakeAvailable();
+				rocks_side_Pixmap.MakeAvailable();
+				rocks_side_Texture.MakeAvailable();
+				side_custom_Material.MakeAvailable();
+				side_custom_Pixmap.MakeAvailable();
+				side_custom_Texture.MakeAvailable();
 				stones_Material.MakeAvailable();
 				stones_Pixmap.MakeAvailable();
 				stones_Texture.MakeAvailable();
@@ -169,6 +208,9 @@ namespace GameRes
 				Stone_Top_Material.MakeAvailable();
 				Stone_Top_Pixmap.MakeAvailable();
 				Stone_Top_Texture.MakeAvailable();
+				the_tree_Material.MakeAvailable();
+				the_tree_Pixmap.MakeAvailable();
+				the_tree_Texture.MakeAvailable();
 				top_left_cap_Material.MakeAvailable();
 				top_left_cap_Pixmap.MakeAvailable();
 				top_left_cap_Texture.MakeAvailable();

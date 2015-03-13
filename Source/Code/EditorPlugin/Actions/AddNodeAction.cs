@@ -25,26 +25,26 @@ namespace TextureStitch.Editor.Actions
         public override void Do()
         {
             var gameObject = _node.GameObject;
-            var renderer = gameObject.GetComponent<StitchedTextureRenderer>();
+            var renderer = gameObject.GetComponent<StitchPath>();
 
-            var index = renderer.Points.IndexOf(_node.Node);
+            var index = renderer.Path.IndexOf(_node.Node);
 
             var newNode = new MeshNode()
             {
                 Pos = gameObject.Transform.GetWorldPoint(_worldPosition.Xy),
                 Color = _node.Node.Color
             };
-            renderer.Points.Insert(index, newNode);
+            renderer.Path.Insert(index, newNode);
             _addedNode = newNode;
-            renderer.FlagAsDirty();
+            //renderer.FlagAsDirty();
         }
 
         public override void Undo()
         {
             var gameObject = _node.GameObject;
-            var renderer = gameObject.GetComponent<StitchedTextureRenderer>();
-            renderer.Points.Remove(_addedNode);
-            renderer.FlagAsDirty();
+            var renderer = gameObject.GetComponent<StitchPath>();
+            renderer.Path.Remove(_addedNode);
+            //renderer.FlagAsDirty();
         }
 
         public override string Name

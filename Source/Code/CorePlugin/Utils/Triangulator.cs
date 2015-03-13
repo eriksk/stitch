@@ -6,9 +6,7 @@ using System.Text;
 using Duality.Drawing;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
-using MIConvexHull;
 using OpenTK;
-using TextureStitch.Components;
 
 namespace TextureStitch.Utils
 {

@@ -102,13 +102,13 @@ namespace TextureStitch.Editor.CamViews
 
         private void OnSplitNodesSelected(object sender, EventArgs e)
         {
-            if (allObjSel.OfType<SelStichedTextureRenderer>().Count() < 2)
+            if (allObjSel.OfType<SelMeshNode>().Count() < 2)
             {
                 OnNormalSelectionToolstripSelected(sender, e);
                 return;
             }
 
-            UndoRedoManager.Do(new SplitNodesAction(allObjSel.OfType<SelStichedTextureRenderer>().Select(x => x.ActualObject as MeshNodeWithGameObject)));
+            UndoRedoManager.Do(new SplitNodesAction(allObjSel.OfType<SelMeshNode>().Select(x => x.ActualObject as MeshNodeWithGameObject)));
             // switch tool imidiately
             OnNormalSelectionToolstripSelected(sender, e);
         }
@@ -148,11 +148,11 @@ namespace TextureStitch.Editor.CamViews
         {
             base.PostPerformAction(selObjEnum, action);
 
-            if (selObjEnum.OfType<SelStichedTextureRenderer>().Any())
+            if (selObjEnum.OfType<SelMeshNode>().Any())
             {
-                foreach (var obj in selObjEnum.OfType<SelStichedTextureRenderer>())
+                foreach (var obj in selObjEnum.OfType<SelMeshNode>())
                 {
-                    (obj.ActualObject as MeshNodeWithGameObject).GameObject.GetComponent<StitchedTextureRenderer>().FlagAsDirty();
+                    //(obj.ActualObject as MeshNodeWithGameObject).GameObject.GetComponent<StitchPath>().FlagAsDirty();
                 }
             }
 
@@ -177,9 +177,9 @@ namespace TextureStitch.Editor.CamViews
 
             if (pickedRenderer != null)
             {
-                var nearestPoint = FindNearestPointFor(pickedRenderer, x, y);
+                var nearestPoint = FindNearestPointFor(pickedRenderer.GameObj.GetComponent<StitchPath>(), x, y);
                 if (nearestPoint != null)
-                    return new SelStichedTextureRenderer(new MeshNodeWithGameObject(nearestPoint, pickedRenderer.GameObj));
+                    return new SelMeshNode(new MeshNodeWithGameObject(nearestPoint, pickedRenderer.GameObj));
             }
 
             return null;
@@ -193,18 +193,18 @@ namespace TextureStitch.Editor.CamViews
 
             if (pickedRenderer != null)
             {
-                var pointsInSelection = FindAllNodesInRect(pickedRenderer, x, y, w, h);
-                selected.AddRange(pointsInSelection.Select(point => new SelStichedTextureRenderer(new MeshNodeWithGameObject(point, pickedRenderer.GameObj))));
+                var pointsInSelection = FindAllNodesInRect(pickedRenderer.GameObj.GetComponent<StitchPath>(), x, y, w, h);
+                selected.AddRange(pointsInSelection.Select(point => new SelMeshNode(new MeshNodeWithGameObject(point, pickedRenderer.GameObj))));
             }
 
             return selected;
         }
-        
-        private MeshNode FindNearestPointFor(StitchedTextureRenderer renderer, int x, int y)
+
+        private MeshNode FindNearestPointFor(StitchPath renderer, int x, int y)
         {
             Vector3 worldCoord = GetSpaceCoord(new Vector3(x, y, renderer.GameObj.Transform.Pos.Z));
             
-            var points = renderer.Points;
+            var points = renderer.Path;
 
             var nearest = points.FirstOrDefault();
             if (nearest == null) return null;
@@ -231,11 +231,11 @@ namespace TextureStitch.Editor.CamViews
 
             return nearest;
         }
-        private IEnumerable<MeshNode> FindAllNodesInRect(StitchedTextureRenderer renderer, int x, int y, int w, int h)
+        private IEnumerable<MeshNode> FindAllNodesInRect(StitchPath renderer, int x, int y, int w, int h)
         {
             var rect = GetSpaceRect(x, y, w, h, renderer.GameObj.Transform.Pos.Z);
 
-            foreach (var point in renderer.Points)
+            foreach (var point in renderer.Path)
             {
                 var pos = Vector2.Transform(point.Pos,
                     Matrix4.CreateTranslation(renderer.GameObj.Transform.Pos) *
@@ -259,16 +259,16 @@ namespace TextureStitch.Editor.CamViews
             if (e.SameObjects) return;
 
             allObjSel = new List<SelObj>();
-            allObjSel.AddRange(e.Current.Objects.Where(x => (x as MeshNodeWithGameObject) != null).Select(x => new SelStichedTextureRenderer((x as MeshNodeWithGameObject)) as SelObj));
+            allObjSel.AddRange(e.Current.Objects.Where(x => (x as MeshNodeWithGameObject) != null).Select(x => new SelMeshNode((x as MeshNodeWithGameObject)) as SelObj));
           
-            foreach (var s in e.Removed.Objects.Where(x => (x as MeshNodeWithGameObject) != null).Select(x => new SelStichedTextureRenderer(x as MeshNodeWithGameObject)))
+            foreach (var s in e.Removed.Objects.Where(x => (x as MeshNodeWithGameObject) != null).Select(x => new SelMeshNode(x as MeshNodeWithGameObject)))
                 actionObjSel.Remove(s);
 
-            actionObjSel.AddRange(e.Added.Objects.Where(x => (x as MeshNodeWithGameObject) != null).Select(x => new SelStichedTextureRenderer(x as MeshNodeWithGameObject)));
+            actionObjSel.AddRange(e.Added.Objects.Where(x => (x as MeshNodeWithGameObject) != null).Select(x => new SelMeshNode(x as MeshNodeWithGameObject)));
 
             indirectObjSel.Clear();
             // add gameobject
-            indirectObjSel.AddRange(e.Added.Objects.Where(x => (x as MeshNodeWithGameObject) != null).Select(x => new SceneEditorCamViewState.SelGameObj(new SelStichedTextureRenderer(x as MeshNodeWithGameObject).GameObject)));
+            indirectObjSel.AddRange(e.Added.Objects.Where(x => (x as MeshNodeWithGameObject) != null).Select(x => new SceneEditorCamViewState.SelGameObj(new SelMeshNode(x as MeshNodeWithGameObject).GameObject)));
 
             Log.Editor.Write("allObjSel: " + allObjSel.Count);
             Log.Editor.Write("actionObjSel: " + actionObjSel.Count);
@@ -279,9 +279,9 @@ namespace TextureStitch.Editor.CamViews
             Invalidate();
         }
 
-        protected IEnumerable<StitchedTextureRenderer> FindRenderers()
+        protected IEnumerable<StitchRenderer> FindRenderers()
         {
-            var allColliders = Scene.Current.FindComponents<StitchedTextureRenderer>().Where(r =>
+            var allColliders = Scene.Current.FindComponents<StitchRenderer>().Where(r =>
                 r.Active &&
                 !DesignTimeObjectData.Get(r.GameObj).IsHidden &&
                 this.IsCoordInView(r.GameObj.Transform.Pos, r.BoundRadius));
@@ -293,11 +293,11 @@ namespace TextureStitch.Editor.CamViews
         {
             base.SelectObjects(selObjEnum, mode);
 
-            if (selObjEnum.OfType<SelStichedTextureRenderer>().Any())
+            if (selObjEnum.OfType<SelMeshNode>().Any())
             {
                 DualityEditorApp.Deselect(this, ObjectSelection.Category.All);
                 DualityEditorApp.Select(this,
-                    new ObjectSelection(selObjEnum.OfType<SelStichedTextureRenderer>().Select(s => s.ActualObject)),
+                    new ObjectSelection(selObjEnum.OfType<SelMeshNode>().Select(s => s.ActualObject)),
                     mode);
             }
         }
@@ -337,11 +337,11 @@ namespace TextureStitch.Editor.CamViews
             {
                 if (_leftControlDown)
                 {
-                    if (allObjSel.OfType<SelStichedTextureRenderer>().Any())
+                    if (allObjSel.OfType<SelMeshNode>().Any())
                     {
                         UndoRedoManager.Do(
                             new AddNodeAction(
-                                (allObjSel.OfType<SelStichedTextureRenderer>().First().ActualObject as
+                                (allObjSel.OfType<SelMeshNode>().First().ActualObject as
                                     MeshNodeWithGameObject), GetSpaceCoord(_mousePos)));
                     }
                 }
@@ -352,9 +352,9 @@ namespace TextureStitch.Editor.CamViews
         {
             base.DeleteObjects(objEnum);
 
-            if (objEnum.OfType<SelStichedTextureRenderer>().Any())
+            if (objEnum.OfType<SelMeshNode>().Any())
             {
-                UndoRedoManager.Do(new RemoveNodesAction((objEnum.OfType<SelStichedTextureRenderer>().Select(x => x.ActualObject as MeshNodeWithGameObject))));
+                UndoRedoManager.Do(new RemoveNodesAction((objEnum.OfType<SelMeshNode>().Select(x => x.ActualObject as MeshNodeWithGameObject))));
             }
         }
 
@@ -362,18 +362,20 @@ namespace TextureStitch.Editor.CamViews
         {
             base.OnCollectStateDrawcalls(canvas);
 
-            foreach (var meshNodeWithGameObject in allObjSel.Where(x => (x as SelStichedTextureRenderer) != null).Select(x => (MeshNodeWithGameObject)(x as SelStichedTextureRenderer).ActualObject))
+            foreach (var meshNodeWithGameObject in allObjSel.Where(x => (x as SelMeshNode) != null).Select(x => (MeshNodeWithGameObject)(x as SelMeshNode).ActualObject))
             {
                 if (meshNodeWithGameObject == null) continue;
-                var stitches = meshNodeWithGameObject.GameObject.GetComponent<StitchedTextureRenderer>();
+                var stitches = meshNodeWithGameObject.GameObject.GetComponent<StitchPath>();
+                var stitchRenderer = meshNodeWithGameObject.GameObject.GetComponent<StitchRenderer>();
                 if (stitches == null) continue;
 
-                if (_showMeshes)
-                {
-                    RenderMeshes(canvas, stitches);
-                }
+                //if (_showMeshes)
+                //{
+                    RenderMeshes(canvas, stitchRenderer);
+                    continue;
+                //}
 
-                var points = stitches.Points;
+                var points = stitches.Path;
                 for (int i = 0; i < points.Count - 1; i++)
                 {
                     var p1 = points[i];
@@ -405,9 +407,9 @@ namespace TextureStitch.Editor.CamViews
             }
         }
 
-        private void RenderMeshes(Canvas canvas, StitchedTextureRenderer stitches)
+        private void RenderMeshes(Canvas canvas, StitchRenderer stitches)
         {
-            // TODO: don't always calculate meshes, do that when dirty, use the mesh data here to draw debug lines
+            stitches.DrawDebug(canvas);
         }
     }
 }

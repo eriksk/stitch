@@ -42,9 +42,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\FarseerDuality.dll</HintPath>
     </Reference>
-    <Reference Include="MIConvexHull">
-      <HintPath>..\packages\MIConvexHull.1.0.10.1021\lib\portable-net4+sl4+wp7+win8\MIConvexHull.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\..\..\OpenTK.dll</HintPath>
     </Reference>
@@ -55,23 +52,20 @@
   <ItemGroup>
     <Compile Include="Components\MeshNode.cs" />
     <Compile Include="Components\StitchedTextureRenderer.cs" />
+    <Compile Include="Components\StitchPath.cs" />
+    <Compile Include="Components\StitchRenderer.cs" />
     <Compile Include="CorePlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\GameRes.cs" />
     <Compile Include="Stitch\Cap.cs" />
     <Compile Include="Stitch\Caps.cs" />
+    <Compile Include="Stitch\Side.cs" />
     <Compile Include="Utils\MathHelper.cs" />
     <Compile Include="Utils\Triangulator.cs" />
     <Compile Include="Utils\Vector2Ext.cs" />
     <Compile Include="Utils\UvHelper.cs" />
     <Compile Include="Utils\RenderHelper.cs" />
     <Compile Include="Utils\VertexCache.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="MIConvexHull.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

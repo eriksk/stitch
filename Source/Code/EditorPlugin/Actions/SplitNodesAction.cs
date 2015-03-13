@@ -24,12 +24,12 @@ namespace TextureStitch.Editor.Actions
         public override void Do()
         {
             var gameObj = _nodes.First().GameObject;
-            var renderer = gameObj.GetComponent<StitchedTextureRenderer>();
+            var renderer = gameObj.GetComponent<StitchPath>();
             var node1 = _nodes.First().Node;
             var node2 = _nodes.Last().Node;
 
-            var indexOfNode1 = renderer.Points.IndexOf(node1);
-            var indexOfNode2 = renderer.Points.IndexOf(node2);
+            var indexOfNode1 = renderer.Path.IndexOf(node1);
+            var indexOfNode2 = renderer.Path.IndexOf(node2);
 
             _addedNode = new MeshNode()
             {
@@ -37,14 +37,14 @@ namespace TextureStitch.Editor.Actions
                 Pos = Vector2.Lerp(node1.Pos, node2.Pos, 0.5f)
             };
 
-            renderer.Points.Insert(Math.Min(indexOfNode1, indexOfNode2), _addedNode);
+            renderer.Path.Insert(Math.Min(indexOfNode1, indexOfNode2), _addedNode);
         }
 
         public override void Undo()
         {
             var gameObj = _nodes.First().GameObject;
-            var renderer = gameObj.GetComponent<StitchedTextureRenderer>();
-            renderer.Points.Remove(_addedNode);
+            var renderer = gameObj.GetComponent<StitchPath>();
+            renderer.Path.Remove(_addedNode);
         }
 
         public override string Name

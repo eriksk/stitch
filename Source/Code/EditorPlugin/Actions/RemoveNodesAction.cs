@@ -26,10 +26,10 @@ namespace TextureStitch.Editor.Actions
             foreach (var node in _nodes)
             {
                 var gameObj = node.GameObject;
-                var renderer = gameObj.GetComponent<StitchedTextureRenderer>();
-                _indices.Add(renderer.Points.IndexOf(node.Node));
-                renderer.Points.Remove(node.Node);
-                renderer.FlagAsDirty();
+                var renderer = gameObj.GetComponent<StitchPath>();
+                _indices.Add(renderer.Path.IndexOf(node.Node));
+                renderer.Path.Remove(node.Node);
+                //renderer.FlagAsDirty();
             }
         }
 
@@ -39,9 +39,9 @@ namespace TextureStitch.Editor.Actions
             {
                 var node = _nodes.ElementAt(j);
                 var gameObj = node.GameObject;
-                var renderer = gameObj.GetComponent<StitchedTextureRenderer>();
-                renderer.Points.Insert(_indices[j], node.Node);
-                renderer.FlagAsDirty();
+                var renderer = gameObj.GetComponent<StitchPath>();
+                renderer.Path.Insert(_indices[j], node.Node);
+                //renderer.FlagAsDirty();
             }
             _indices.Clear();
         }

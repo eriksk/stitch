@@ -64,7 +64,7 @@
     <Compile Include="Actions\RemoveNodesAction.cs" />
     <Compile Include="Actions\SplitNodesAction.cs" />
     <Compile Include="CamViews\CursorState.cs" />
-    <Compile Include="CamViews\SelStichedTextureRenderer.cs" />
+    <Compile Include="CamViews\SelMeshNode.cs" />
     <Compile Include="CamViews\StitchedTextureCamViewState.cs" />
     <Compile Include="EditorPlugin.cs" />
     <Compile Include="Model\MeshNodeWithGameObject.cs" />

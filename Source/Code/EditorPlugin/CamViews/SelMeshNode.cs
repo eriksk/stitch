@@ -10,11 +10,11 @@ using TextureStitch.Editor.Model;
 
 namespace TextureStitch.Editor.CamViews
 {
-    public class SelStichedTextureRenderer : CamViewState.SelObj
+    public class SelMeshNode : CamViewState.SelObj
     {
         private readonly MeshNodeWithGameObject _node;
 
-        public SelStichedTextureRenderer(MeshNodeWithGameObject node)
+        public SelMeshNode(MeshNodeWithGameObject node)
         {
             if (node == null) throw new ArgumentNullException("node");
             _node = node;
