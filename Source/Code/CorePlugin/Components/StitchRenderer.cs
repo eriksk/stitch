@@ -20,8 +20,10 @@ namespace TextureStitch.Components
         public float TopThreshold { get; set; }
         public float SegmentSplitSize { get; set; }
 
-        public ContentRef<Material> DebugEdgeMat { get; set; }
-        public ContentRef<Material> DebugFillMat { get; set; }
+        public ContentRef<Material> TopMaterial { get; set; }
+        public ContentRef<Material> BottomMaterial { get; set; }
+        public ContentRef<Material> SideMaterial { get; set; }
+        public ContentRef<Material> FillMaterial { get; set; }
 
         public Vector2 FillUvOffset { get; set; }
         public float FillScale { get; set; }
@@ -105,104 +107,7 @@ namespace TextureStitch.Components
             int i = path.IndexOf(node);
             return i == path.Count - 1 ? path[0] : path[i + 1];
         }
-
-        //public void DrawDebug(Canvas canvas)
-        //{
-        //    var path = GameObj.GetComponent<StitchPath>().Path;
-
-        //    float z = GameObj.Transform.Pos.Z - 1f;
-
-        //    // Preprocess Coords
-        //    Vector3 actualPosition = GameObj.Transform.Pos;
-        //    float actualScale = 1f;
-        //    canvas.DrawDevice.PreprocessCoords(ref actualPosition, ref actualScale);
-
-        //    ColorRgba nodeColor = ColorRgba.White;
-        //    ColorRgba lineColor = ColorRgba.White;
-        //    var meshOutlineColor = new ColorRgba(0f, 1f, 1f);
-
-        //    // all points
-        //    foreach (var point in path)
-        //    {
-        //        canvas.State.ColorTint = nodeColor;
-        //        canvas.FillCircle(point.Pos.X, point.Pos.Y, z, 8f);
-        //    }
-
-        //    // meshes
-        //    canvas.State.ColorTint = new ColorRgba(1f, 1f, 0f);
-        //    IterateSegments((p1, p2, i) =>
-        //    {
-        //        var height = DebugEdgeMat.IsAvailable ? DebugEdgeMat.Res.MainTexture.Res.PixelHeight : 32f;
-
-        //        var p0 = PreviousNode(p1);
-        //        var p3 = NextNode(p2);
-
-        //        // 1) define the line between the two points
-        //        var line = (p2.Pos - p1.Pos).Normalized;
-
-        //        // 2) find the normal vector of this line
-        //        var normal = new Vector2(-line.Y, line.X).Normalized;
-
-        //        // 3) find the tangent vector at both the end points:
-        //        //		-if there are no segments before or after this one, use the line itself
-        //        //		-otherwise, add the two normalized lines and average them by normalizing again
-        //        var tangent1 = (p0.Pos == p1.Pos) ? line : ((p1.Pos - p0.Pos).Normalized + line).Normalized;
-        //        var tangent2 = (p2.Pos == p3.Pos) ? line : ((p3.Pos - p2.Pos).Normalized + line).Normalized;
-
-        //        // 4) find the miter line, which is the normal of the tangent
-        //        var miter1 = new Vector2(-tangent1.Y, tangent1.X);
-        //        var miter2 = new Vector2(-tangent2.Y, tangent2.X);
-
-        //        // find length of miter by projecting the miter onto the normal,
-        //        // take the length of the projection, invert it and multiply it by the thickness:
-        //        //		length = thickness * ( 1 / |normal|.|miter| )
-        //        float length1 = (height / 2f) / Vector2.Dot(normal, miter1);
-        //        float length2 = (height / 2f) / Vector2.Dot(normal, miter2);
-
-        //        canvas.State.ColorTint = new ColorRgba(1f, 0f, 0f);
-        //        // miter 1
-        //        var miter1Start = p1.Pos - miter1 * length1;
-        //        var miter1End = p1.Pos + miter1 * length1;
-        //        // miter 2
-        //        var miter2Start = p2.Pos - miter2 * length2;
-        //        var miter2End = p2.Pos + miter2 * length2;
-        //        {
-        //            canvas.DrawLine(miter1Start.X, miter1Start.Y, 0f, miter1End.X, miter1End.Y, 0f);
-        //            canvas.DrawLine(miter2Start.X, miter2Start.Y, 0f, miter2End.X, miter2End.Y, 0f);
-        //        }
-
-        //        var verts = new Vector2[4];
-
-        //        verts[0] = new Vector2(miter1Start.X, miter1Start.Y);
-        //        verts[1] = new Vector2(miter1End.X, miter1End.Y);
-        //        verts[2] = new Vector2(miter2End.X, miter2End.Y);
-        //        verts[3] = new Vector2(miter2Start.X, miter2Start.Y);
-
-
-
-        //        //for (int j = 0; j < verts.Length; j++)
-        //        //{
-        //        //    verts[j] = Vector2.Transform(verts[j],
-        //        //        Matrix4.CreateTranslation(/*k * width*/0, -height / 2f, 0f) * // center it
-        //        //        Matrix4.CreateRotationZ(angle) *
-        //        //        Matrix4.CreateTranslation(p2.Pos.X, p2.Pos.Y, 0f));
-        //        //}
-
-        //        canvas.State.ColorTint = new ColorRgba(1f, 1f, 0f);
-        //        canvas.DrawLine(verts[0].X, verts[0].Y, 0f, verts[3].X, verts[3].Y, 0f);
-        //        canvas.DrawLine(verts[1].X, verts[1].Y, 0f, verts[2].X, verts[2].Y, 0f);
-        //    });
-
-
-        //    // poly lines
-        //    canvas.State.ColorTint = ColorRgba.Red;
-        //    IterateSegments((p1, p2, i) =>
-        //    {
-        //        canvas.DrawDashLine(p1.Pos.X, p1.Pos.Y, z, p2.Pos.X, p2.Pos.Y, z);
-        //    });
-
-        //}
-
+        
         // TODO: miter or not when angle too sharp
         public void DrawDebug(Canvas canvas)
         {
@@ -237,7 +142,7 @@ namespace TextureStitch.Components
             canvas.State.ColorTint = new ColorRgba(1f, 1f, 0f);
             IterateSegments((point1, point2, i) =>
             {
-                var height = DebugEdgeMat.IsAvailable ? DebugEdgeMat.Res.MainTexture.Res.PixelHeight : 32f;
+                var height = TopMaterial.IsAvailable ? TopMaterial.Res.MainTexture.Res.PixelHeight : 32f;
 
                 float distance = point1.Pos.DistanceTo(point2.Pos);
                 int segments = (int)(distance / SegmentSplitSize) + 1;
@@ -330,11 +235,8 @@ namespace TextureStitch.Components
             yield return Vector2.Lerp(p1.Pos, p2.Pos, 1f);
         }
 
-        
         public void Draw(IDrawDevice device)
         {
-            if (!DebugEdgeMat.IsAvailable) return;
-
             _vertexCache.Restart();
 
             DrawFill(device);
@@ -350,8 +252,36 @@ namespace TextureStitch.Components
 
             IterateSegments((point1, point2, i) =>
             {
-                var texture = DebugEdgeMat.Res.MainTexture.Res;
-                var height = texture.PixelHeight; // Get from texture
+                var angle = point1.Pos.AngleTo(point2.Pos);
+                var side = GetSideFromAngle(angle);
+                float zOffset = 0f;
+
+                ContentRef<Material> material = null;
+
+                switch (side)
+                {
+                    case Side.Top:
+                        material = TopMaterial;
+                        zOffset = -1f;
+                        break;
+                    case Side.Left:
+                    case Side.Right:
+                        material = SideMaterial;
+                        zOffset = -0.5f;
+                        break;
+                    case Side.Bottom:
+                        material = BottomMaterial;
+                        zOffset = -1f;
+                        break;
+                }
+
+                if (material == null) return;
+
+                bool useMiterLeft = GetSideFromAngle(PreviousNode(point1).Pos.AngleTo(point1.Pos)) == side;
+                bool useMiterRight = GetSideFromAngle(point2.Pos.AngleTo(NextNode(point2).Pos)) == side;
+
+                var texture = material.Res.MainTexture.Res;
+                var height = texture.PixelHeight;
 
                 float distance = point1.Pos.DistanceTo(point2.Pos);
                 int segments = (int)(distance / SegmentSplitSize) + 1;
@@ -367,6 +297,11 @@ namespace TextureStitch.Components
                     var p1 = localNodes[k];
                     var p2 = localNodes[k + 1];
                     var p3 = localNodes[k + 2];
+
+                    if (k == 1 && !useMiterLeft)
+                        p0 = localNodes[k];
+                    if (k == localNodes.Count - 3 && !useMiterRight)
+                        p3 = localNodes[k + 1];
 
                     // 1) define the line between the two points
                     var line = (p2 - p1).Normalized;
@@ -404,16 +339,16 @@ namespace TextureStitch.Components
                     vertices[2].Pos = new Vector3(miter2End);
                     vertices[3].Pos = new Vector3(miter2Start);
 
-                    vertices[0].Pos.Z = z;
-                    vertices[1].Pos.Z = z;
-                    vertices[2].Pos.Z = z;
-                    vertices[3].Pos.Z = z;
+                    vertices[0].Pos.Z = z + zOffset;
+                    vertices[1].Pos.Z = z + zOffset;
+                    vertices[2].Pos.Z = z + zOffset;
+                    vertices[3].Pos.Z = z + zOffset;
 
-                    vertices[0].Color = point1.Color*DebugEdgeMat.Res.MainColor;
-                    vertices[1].Color = point1.Color*DebugEdgeMat.Res.MainColor;
+                    vertices[0].Color = point1.Color * material.Res.MainColor;
+                    vertices[1].Color = point1.Color * material.Res.MainColor;
 
-                    vertices[2].Color = point2.Color*DebugEdgeMat.Res.MainColor;
-                    vertices[3].Color = point2.Color*DebugEdgeMat.Res.MainColor;
+                    vertices[2].Color = point2.Color * material.Res.MainColor;
+                    vertices[3].Color = point2.Color * material.Res.MainColor;
 
                     var uvs = new Rect(0f, 0f, 1f, 1f);
                     vertices[0].TexCoord = uvs.BottomRight;
@@ -428,17 +363,17 @@ namespace TextureStitch.Components
                             Matrix4.CreateTranslation(actualPosition));
                     }
 
-                    device.AddVertices(DebugEdgeMat, VertexMode.Quads, vertices);
+                    device.AddVertices(material, VertexMode.Quads, vertices);
                 }
             });
         }
 
         private void DrawFill(IDrawDevice device)
         {
-            if (!DebugFillMat.IsAvailable)
+            if (!FillMaterial.IsAvailable)
                 return;
 
-            var fillMaterial = DebugFillMat;
+            var fillMaterial = FillMaterial;
 
             var path = GameObj.GetComponent<StitchPath>().Path;
 
@@ -489,89 +424,5 @@ namespace TextureStitch.Components
             }
         }
         
-        //public void Draw(IDrawDevice device)
-        //{
-        //    if (!DebugEdgeMat.IsAvailable) return;
-
-        //    _vertexCache.Restart();
-
-        //    var path = GameObj.GetComponent<StitchPath>().Path;
-
-        //    float z = GameObj.Transform.Pos.Z - 1f;
-
-        //    // Preprocess Coords
-        //    Vector3 actualPosition = GameObj.Transform.Pos;
-        //    float actualScale = 1f;
-        //    device.PreprocessCoords(ref actualPosition, ref actualScale);
-
-        //    IterateSegments((p1, p2, i) =>
-        //    {
-        //        var texture = DebugEdgeMat.Res.MainTexture.Res;
-
-        //        var height = texture.PixelHeight; // Get from texture
-
-        //        var p0 = PreviousNode(p1);
-        //        var p3 = NextNode(p2);
-
-        //        // 1) define the line between the two points
-        //        var line = (p2.Pos - p1.Pos).Normalized;
-
-        //        // 2) find the normal vector of this line
-        //        var normal = new Vector2(-line.Y, line.X).Normalized;
-
-        //        // 3) find the tangent vector at both the end points:
-        //        //		-if there are no segments before or after this one, use the line itself
-        //        //		-otherwise, add the two normalized lines and average them by normalizing again
-        //        var tangent1 = (p0.Pos == p1.Pos) ? line : ((p1.Pos - p0.Pos).Normalized + line).Normalized;
-        //        var tangent2 = (p2.Pos == p3.Pos) ? line : ((p3.Pos - p2.Pos).Normalized + line).Normalized;
-
-        //        // 4) find the miter line, which is the normal of the tangent
-        //        var miter1 = new Vector2(-tangent1.Y, tangent1.X);
-        //        var miter2 = new Vector2(-tangent2.Y, tangent2.X);
-
-        //        // find length of miter by projecting the miter onto the normal,
-        //        // take the length of the projection, invert it and multiply it by the thickness:
-        //        //		length = thickness * ( 1 / |normal|.|miter| )
-        //        float length1 = (height / 2f) / Vector2.Dot(normal, miter1);
-        //        float length2 = (height / 2f) / Vector2.Dot(normal, miter2);
-
-        //        // miter 1
-        //        var miter1Start = p1.Pos - miter1 * length1;
-        //        var miter1End = p1.Pos + miter1 * length1;
-        //        // miter 2
-        //        var miter2Start = p2.Pos - miter2 * length2;
-        //        var miter2End = p2.Pos + miter2 * length2;
-
-        //        var vertices = _vertexCache.Next(4);
-
-        //        vertices[0].Pos = new Vector3(miter1Start);
-        //        vertices[1].Pos = new Vector3(miter1End);
-        //        vertices[2].Pos = new Vector3(miter2End);
-        //        vertices[3].Pos = new Vector3(miter2Start);
-
-        //        vertices[0].Color = p1.Color * DebugEdgeMat.Res.MainColor;
-        //        vertices[1].Color = p1.Color * DebugEdgeMat.Res.MainColor;
-
-        //        vertices[2].Color = p2.Color * DebugEdgeMat.Res.MainColor;
-        //        vertices[3].Color = p2.Color * DebugEdgeMat.Res.MainColor;
-
-        //        var uvs = new Rect(0f, 0f, 1f, 1f);
-        //        vertices[0].TexCoord = uvs.BottomRight;
-        //        vertices[1].TexCoord = uvs.TopRight;
-        //        vertices[2].TexCoord = uvs.TopLeft;
-        //        vertices[3].TexCoord = uvs.BottomLeft;
-
-        //        for (int j = 0; j < vertices.Length; j++)
-        //        {
-        //            vertices[j].Pos = Vector3.Transform(vertices[j].Pos, 
-        //                Matrix4.CreateScale(actualScale)* 
-        //                Matrix4.CreateTranslation(actualPosition));
-        //        }
-
-        //        device.AddVertices(DebugEdgeMat, VertexMode.Quads, vertices);
-        //    });
-        //}
-
-
     }
 }

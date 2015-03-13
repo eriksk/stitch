@@ -157,8 +157,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">2559.935</X>
-                    <Y dataType="Float">1021.92139</Y>
+                    <X dataType="Float">3795.106</X>
+                    <Y dataType="Float">812.261353</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="1900733646">
@@ -169,11 +169,23 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">3744.50781</X>
-                    <Y dataType="Float">987.751</Y>
+                    <X dataType="Float">3819.63965</X>
+                    <Y dataType="Float">-35.5602341</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="588138780">
+                  <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
+                    <A dataType="Byte">255</A>
+                    <B dataType="Byte">255</B>
+                    <G dataType="Byte">255</G>
+                    <R dataType="Byte">255</R>
+                  </Color>
+                  <Pos dataType="Struct" type="OpenTK.Vector2">
+                    <X dataType="Float">4847.502</X>
+                    <Y dataType="Float">-5.85520935</Y>
+                  </Pos>
+                </item>
+                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2838394322">
                   <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
                     <A dataType="Byte">255</A>
                     <B dataType="Byte">255</B>
@@ -185,7 +197,7 @@
                     <Y dataType="Float">839.679443</Y>
                   </Pos>
                 </item>
-                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2838394322">
+                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="1188426552">
                   <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
                     <A dataType="Byte">255</A>
                     <B dataType="Byte">255</B>
@@ -197,7 +209,7 @@
                     <Y dataType="Float">639.484863</Y>
                   </Pos>
                 </item>
-                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="1188426552">
+                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2031890214">
                   <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
                     <A dataType="Byte">255</A>
                     <B dataType="Byte">255</B>
@@ -209,7 +221,7 @@
                     <Y dataType="Float">-919.854248</Y>
                   </Pos>
                 </item>
-                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2031890214">
+                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="974263316">
                   <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
                     <A dataType="Byte">255</A>
                     <B dataType="Byte">255</B>
@@ -221,7 +233,7 @@
                     <Y dataType="Float">-1655.59131</Y>
                   </Pos>
                 </item>
-                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="974263316">
+                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="4226072938">
                   <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
                     <A dataType="Byte">255</A>
                     <B dataType="Byte">255</B>
@@ -233,7 +245,7 @@
                     <Y dataType="Float">-2138.04175</Y>
                   </Pos>
                 </item>
-                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="4226072938">
+                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="3993608176">
                   <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
                     <A dataType="Byte">255</A>
                     <B dataType="Byte">255</B>
@@ -245,18 +257,6 @@
                     <Y dataType="Float">-2204.379</Y>
                   </Pos>
                 </item>
-                <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="3993608176">
-                  <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
-                    <A dataType="Byte">255</A>
-                    <B dataType="Byte">255</B>
-                    <G dataType="Byte">255</G>
-                    <R dataType="Byte">255</R>
-                  </Color>
-                  <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">6806.9624</X>
-                    <Y dataType="Float">-2215.59741</Y>
-                  </Pos>
-                </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="948049406">
                   <Color dataType="Struct" type="Duality.Drawing.ColorRgba">
                     <A dataType="Byte">255</A>
@@ -265,8 +265,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">6464.00928</X>
-                    <Y dataType="Float">-2695.7478</Y>
+                    <X dataType="Float">6474.579</X>
+                    <Y dataType="Float">-2106.22266</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="1748245132">
@@ -277,8 +277,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">5799.611</X>
-                    <Y dataType="Float">-2537.74536</Y>
+                    <X dataType="Float">6474.1084</X>
+                    <Y dataType="Float">-2691.21313</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="285693314">
@@ -289,8 +289,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">5180.86572</X>
-                    <Y dataType="Float">-2549.76367</Y>
+                    <X dataType="Float">5075.36</X>
+                    <Y dataType="Float">-2640.394</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="4228401064">
@@ -301,8 +301,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">5190.77</X>
-                    <Y dataType="Float">-1936.90283</Y>
+                    <X dataType="Float">5058.516</X>
+                    <Y dataType="Float">-2027.68457</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="1458771414">
@@ -313,8 +313,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">4019.59546</X>
-                    <Y dataType="Float">-2157.616</Y>
+                    <X dataType="Float">4096.04834</X>
+                    <Y dataType="Float">-2006.201</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="1454463364">
@@ -325,8 +325,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">3884.13721</X>
-                    <Y dataType="Float">-1512.79968</Y>
+                    <X dataType="Float">4061.45923</X>
+                    <Y dataType="Float">-1517.7511</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2420454682">
@@ -337,8 +337,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">3121.828</X>
-                    <Y dataType="Float">-1576.42212</Y>
+                    <X dataType="Float">2792.73462</X>
+                    <Y dataType="Float">-1501.39746</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="369391712">
@@ -349,8 +349,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">3149.25049</X>
-                    <Y dataType="Float">-2363.218</Y>
+                    <X dataType="Float">2771.84</X>
+                    <Y dataType="Float">-2315.18555</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="3288828590">
@@ -385,8 +385,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">997.9404</X>
-                    <Y dataType="Float">-2361.915</Y>
+                    <X dataType="Float">397.580383</X>
+                    <Y dataType="Float">-2334.8894</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="140365336">
@@ -421,8 +421,8 @@
                     <R dataType="Byte">255</R>
                   </Color>
                   <Pos dataType="Struct" type="OpenTK.Vector2">
-                    <X dataType="Float">-1042.99316</X>
-                    <Y dataType="Float">-1630.44482</Y>
+                    <X dataType="Float">-968.83844</X>
+                    <Y dataType="Float">-1862.40393</Y>
                   </Pos>
                 </item>
                 <item dataType="Struct" type="TextureStitch.Components.MeshNode" id="2622530890">
@@ -451,24 +451,30 @@
                 </item>
               </_items>
               <_size dataType="Int">25</_size>
-              <_version dataType="Int">127</_version>
+              <_version dataType="Int">129</_version>
             </_path>
             <active dataType="Bool">true</active>
             <gameobj dataType="ObjectRef">4023833617</gameobj>
           </item>
           <item dataType="Struct" type="TextureStitch.Components.StitchRenderer" id="3592709443">
-            <_x003C_DebugEdgeMat_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
-              <contentPath dataType="String">Data\Textures\Grass_rayman\top.Material.res</contentPath>
-            </_x003C_DebugEdgeMat_x003E_k__BackingField>
-            <_x003C_DebugFillMat_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
+            <_x003C_BottomMaterial_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
+              <contentPath dataType="String">Data\Textures\Grass_rayman\bottom_rocks.Material.res</contentPath>
+            </_x003C_BottomMaterial_x003E_k__BackingField>
+            <_x003C_FillMaterial_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
               <contentPath dataType="String">Data\Textures\Grass_rayman\fill.Material.res</contentPath>
-            </_x003C_DebugFillMat_x003E_k__BackingField>
+            </_x003C_FillMaterial_x003E_k__BackingField>
             <_x003C_FillScale_x003E_k__BackingField dataType="Float">1.59999979</_x003C_FillScale_x003E_k__BackingField>
             <_x003C_FillUvOffset_x003E_k__BackingField dataType="Struct" type="OpenTK.Vector2">
               <X dataType="Float">0</X>
               <Y dataType="Float">0</Y>
             </_x003C_FillUvOffset_x003E_k__BackingField>
             <_x003C_SegmentSplitSize_x003E_k__BackingField dataType="Float">512</_x003C_SegmentSplitSize_x003E_k__BackingField>
+            <_x003C_SideMaterial_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
+              <contentPath dataType="String">Data\Textures\Grass_rayman\top_rocks.Material.res</contentPath>
+            </_x003C_SideMaterial_x003E_k__BackingField>
+            <_x003C_TopMaterial_x003E_k__BackingField dataType="Struct" type="Duality.ContentRef`1[[Duality.Resources.Material]]">
+              <contentPath dataType="String">Data\Textures\Grass_rayman\top.Material.res</contentPath>
+            </_x003C_TopMaterial_x003E_k__BackingField>
             <_x003C_TopThreshold_x003E_k__BackingField dataType="Float">60</_x003C_TopThreshold_x003E_k__BackingField>
             <_x003C_VisibilityGroup_x003E_k__BackingField dataType="Enum" type="Duality.Drawing.VisibilityFlag" name="Group0" value="1" />
             <active dataType="Bool">true</active>
