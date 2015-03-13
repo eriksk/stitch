@@ -27,6 +27,9 @@ namespace TextureStitch.Components
         public ContentRef<Material> LeftCapMaterial { get; set; }
         public ContentRef<Material> RightCapMaterial { get; set; }
 
+        public float CapLeftOffset { get; set; }
+        public float CapRightOffset { get; set; }
+
         public Vector2 FillUvOffset { get; set; }
         public float FillScale { get; set; }
    
@@ -443,10 +446,10 @@ namespace TextureStitch.Components
                     float halfHeight = texture.PixelHeight * 0.5f;
 
                     var vertices = _vertexCache.Next(4);
-                    vertices[0].Pos = new Vector3(-width, -halfHeight, z + capZOffset);
-                    vertices[1].Pos = new Vector3(-width, halfHeight, z + capZOffset);
-                    vertices[2].Pos = new Vector3(0, halfHeight, z + capZOffset);
-                    vertices[3].Pos = new Vector3(0, -halfHeight, z + capZOffset);
+                    vertices[0].Pos = new Vector3(-(width) - CapLeftOffset, -halfHeight, z + capZOffset);
+                    vertices[1].Pos = new Vector3(-(width) - CapLeftOffset, halfHeight, z + capZOffset);
+                    vertices[2].Pos = new Vector3(-CapLeftOffset, halfHeight, z + capZOffset);
+                    vertices[3].Pos = new Vector3(-CapLeftOffset, -halfHeight, z + capZOffset);
 
                     vertices[0].Color = ColorRgba.White;
                     vertices[1].Color = ColorRgba.White;
@@ -480,10 +483,10 @@ namespace TextureStitch.Components
                     float halfHeight = texture.PixelHeight * 0.5f;
 
                     var vertices = _vertexCache.Next(4);
-                    vertices[0].Pos = new Vector3(0, -halfHeight, z + capZOffset);
-                    vertices[1].Pos = new Vector3(0, halfHeight, z + capZOffset);
-                    vertices[2].Pos = new Vector3(width, halfHeight, z + capZOffset);
-                    vertices[3].Pos = new Vector3(width, -halfHeight, z + capZOffset);
+                    vertices[0].Pos = new Vector3(CapRightOffset, -halfHeight, z + capZOffset);
+                    vertices[1].Pos = new Vector3(CapRightOffset, halfHeight, z + capZOffset);
+                    vertices[2].Pos = new Vector3(width + CapRightOffset, halfHeight, z + capZOffset);
+                    vertices[3].Pos = new Vector3(width + CapRightOffset, -halfHeight, z + capZOffset);
 
                     vertices[0].Color = ColorRgba.White;
                     vertices[1].Color = ColorRgba.White;

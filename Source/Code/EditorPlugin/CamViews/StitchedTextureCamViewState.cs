@@ -369,11 +369,11 @@ namespace TextureStitch.Editor.CamViews
                 var stitchRenderer = meshNodeWithGameObject.GameObject.GetComponent<StitchRenderer>();
                 if (stitches == null) continue;
 
-                //if (_showMeshes)
-                //{
+                if (_showMeshes)
+                {
                     RenderMeshes(canvas, stitchRenderer);
                     continue;
-                //}
+                }
 
                 var points = stitches.Path;
                 for (int i = 0; i < points.Count - 1; i++)
