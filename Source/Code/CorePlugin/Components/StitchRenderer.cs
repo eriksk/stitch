@@ -26,9 +26,16 @@ namespace TextureStitch.Components
         public ContentRef<Material> FillMaterial { get; set; }
         public ContentRef<Material> LeftCapMaterial { get; set; }
         public ContentRef<Material> RightCapMaterial { get; set; }
+        public ContentRef<Material> BottomLeftCapMaterial { get; set; }
+        public ContentRef<Material> BottomRightCapMaterial { get; set; }
 
         public float CapLeftOffset { get; set; }
         public float CapRightOffset { get; set; }
+        public float BottomCapLeftOffset { get; set; }
+        public float BottomCapRightOffset { get; set; }
+
+        public float LeftSideOffset { get; set; }
+        public float RightSideOffset { get; set; }
 
         public Vector2 FillUvOffset { get; set; }
         public float FillScale { get; set; }
@@ -78,14 +85,15 @@ namespace TextureStitch.Components
 
         private Side GetSideFromAngle(float angle)
         {
-            if (!MathHelper.AngleInRange(angle, -TopThreshold, TopThreshold))
-                return Side.Left;
             if (MathHelper.AngleInRange(angle, -TopThreshold, TopThreshold))
                 return Side.Top;
 
-            // TODO: bottom
-
-            return Side.Top;
+            // TODO: fix so ranges don't overlap
+            if (MathHelper.AngleInRange(angle, (-TopThreshold) - 90f, -TopThreshold))
+                return Side.Left;
+            if (MathHelper.AngleInRange(angle, TopThreshold, TopThreshold + 90f))
+                return Side.Right;
+            return Side.Bottom;
         }
 
         private void IterateSegments(Action<MeshNode, MeshNode, int> segmentAction)
@@ -233,53 +241,57 @@ namespace TextureStitch.Components
                     canvas.DrawLine(verts[1].X, verts[1].Y, 0f, verts[2].X, verts[2].Y, 0f);
                 }
 
-                float capZOffset = -0.5f;
-
-                canvas.State.ColorTint = new ColorRgba(0f, 1f, 0f);
-                if (useLeftCap && LeftCapMaterial.IsAvailable)
+                // TODO: Bottom caps
+                if (side == Side.Top)
                 {
-                    var material = LeftCapMaterial;
-                    var texture = material.Res.MainTexture.Res;
-                    float width = texture.PixelWidth;
-                    float halfHeight = texture.PixelHeight * 0.5f;
+                    float capZOffset = -0.5f;
 
-                    var vertices = _vertexCache.Next(4);
-                    vertices[0].Pos = new Vector3(-width, -halfHeight, z + capZOffset);
-                    vertices[1].Pos = new Vector3(-width, halfHeight, z + capZOffset);
-                    vertices[2].Pos = new Vector3(0, halfHeight, z + capZOffset);
-                    vertices[3].Pos = new Vector3(0, -halfHeight, z + capZOffset);
-
-                    for (int j = 0; j < vertices.Length; j++)
+                    canvas.State.ColorTint = new ColorRgba(0f, 1f, 0f);
+                    if (useLeftCap && LeftCapMaterial.IsAvailable)
                     {
-                        vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
-                            Matrix4.CreateRotationZ(angle) *
-                            Matrix4.CreateTranslation(new Vector3(point2.Pos)));
+                        var material = LeftCapMaterial;
+                        var texture = material.Res.MainTexture.Res;
+                        float width = texture.PixelWidth;
+                        float halfHeight = texture.PixelHeight*0.5f;
+
+                        var vertices = _vertexCache.Next(4);
+                        vertices[0].Pos = new Vector3(-width, -halfHeight, z + capZOffset);
+                        vertices[1].Pos = new Vector3(-width, halfHeight, z + capZOffset);
+                        vertices[2].Pos = new Vector3(0, halfHeight, z + capZOffset);
+                        vertices[3].Pos = new Vector3(0, -halfHeight, z + capZOffset);
+
+                        for (int j = 0; j < vertices.Length; j++)
+                        {
+                            vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
+                                Matrix4.CreateRotationZ(angle)*
+                                Matrix4.CreateTranslation(new Vector3(point2.Pos)));
+                        }
+
+                        canvas.DrawPolygon(vertices.Select(x => x.Pos.Xy).ToArray(), 0f, 0f, 0f);
                     }
 
-                    canvas.DrawPolygon(vertices.Select(x => x.Pos.Xy).ToArray(), 0f, 0f, 0f);
-                }
-
-                if (useRightCap && RightCapMaterial.IsAvailable)
-                {
-                    var material = RightCapMaterial;
-                    var texture = material.Res.MainTexture.Res;
-                    float width = texture.PixelWidth;
-                    float halfHeight = texture.PixelHeight * 0.5f;
-
-                    var vertices = _vertexCache.Next(4);
-                    vertices[0].Pos = new Vector3(0, -halfHeight, z + capZOffset);
-                    vertices[1].Pos = new Vector3(0, halfHeight, z + capZOffset);
-                    vertices[2].Pos = new Vector3(width, halfHeight, z + capZOffset);
-                    vertices[3].Pos = new Vector3(width, -halfHeight, z + capZOffset);
-
-                    for (int j = 0; j < vertices.Length; j++)
+                    if (useRightCap && RightCapMaterial.IsAvailable)
                     {
-                        vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
-                            Matrix4.CreateRotationZ(angle) *
-                            Matrix4.CreateTranslation(new Vector3(point1.Pos)));
-                    }
+                        var material = RightCapMaterial;
+                        var texture = material.Res.MainTexture.Res;
+                        float width = texture.PixelWidth;
+                        float halfHeight = texture.PixelHeight*0.5f;
 
-                    canvas.DrawPolygon(vertices.Select(x => x.Pos.Xy).ToArray(), 0f, 0f, 0f);
+                        var vertices = _vertexCache.Next(4);
+                        vertices[0].Pos = new Vector3(0, -halfHeight, z + capZOffset);
+                        vertices[1].Pos = new Vector3(0, halfHeight, z + capZOffset);
+                        vertices[2].Pos = new Vector3(width, halfHeight, z + capZOffset);
+                        vertices[3].Pos = new Vector3(width, -halfHeight, z + capZOffset);
+
+                        for (int j = 0; j < vertices.Length; j++)
+                        {
+                            vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
+                                Matrix4.CreateRotationZ(angle)*
+                                Matrix4.CreateTranslation(new Vector3(point1.Pos)));
+                        }
+
+                        canvas.DrawPolygon(vertices.Select(x => x.Pos.Xy).ToArray(), 0f, 0f, 0f);
+                    }
                 }
             });
 
@@ -360,6 +372,22 @@ namespace TextureStitch.Components
                 localNodes.AddRange(SplitSegmentIntoNodes(point1, point2, segments).ToList());
                 localNodes.Add(NextNode(point2).Pos);
 
+                // TODO: do this for meshes aswell, and generalize offsets on all sizes to a better datamodel
+                if (side == Side.Left)
+                {
+                    for (int j = 0; j < localNodes.Count; j++)
+                    {
+                        localNodes[j] += new Vector2(LeftSideOffset, 0);
+                    }
+                }
+                else if (side == Side.Right)
+                {
+                    for (int j = 0; j < localNodes.Count; j++)
+                    {
+                        localNodes[j] += new Vector2(RightSideOffset, 0);
+                    }
+                }
+
                 for (int k = 1; k < localNodes.Count - 2; k++)
                 {
                     var p0 = localNodes[k - 1];
@@ -435,81 +463,170 @@ namespace TextureStitch.Components
                     device.AddVertices(material, VertexMode.Quads, vertices);
                 }
 
-                
+
                 float capZOffset = -1.5f;
 
-                if (useLeftCap && LeftCapMaterial.IsAvailable)
+                // TODO: Bottom caps
+                if (side == Side.Top)
                 {
-                    material = LeftCapMaterial;
-                    texture = material.Res.MainTexture.Res;
-                    float width = texture.PixelWidth;
-                    float halfHeight = texture.PixelHeight * 0.5f;
-
-                    var vertices = _vertexCache.Next(4);
-                    vertices[0].Pos = new Vector3(-(width) - CapLeftOffset, -halfHeight, z + capZOffset);
-                    vertices[1].Pos = new Vector3(-(width) - CapLeftOffset, halfHeight, z + capZOffset);
-                    vertices[2].Pos = new Vector3(-CapLeftOffset, halfHeight, z + capZOffset);
-                    vertices[3].Pos = new Vector3(-CapLeftOffset, -halfHeight, z + capZOffset);
-
-                    vertices[0].Color = ColorRgba.White;
-                    vertices[1].Color = ColorRgba.White;
-                    vertices[2].Color = ColorRgba.White;
-                    vertices[3].Color = ColorRgba.White;
-
-                    var uvs = new Rect(0f, 0f, 1f, 1f);
-
-                    vertices[0].TexCoord = uvs.TopLeft;
-                    vertices[1].TexCoord = uvs.BottomLeft;
-                    vertices[2].TexCoord = uvs.BottomRight;
-                    vertices[3].TexCoord = uvs.TopRight;
-
-                    for (int j = 0; j < vertices.Length; j++)
+                    if (useLeftCap && LeftCapMaterial.IsAvailable)
                     {
-                        vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
-                            Matrix4.CreateRotationZ(angle) *
-                            Matrix4.CreateTranslation(new Vector3(point2.Pos)) *
-                            Matrix4.CreateScale(actualScale) *
-                            Matrix4.CreateTranslation(actualPosition));
+                        material = LeftCapMaterial;
+                        texture = material.Res.MainTexture.Res;
+                        float width = texture.PixelWidth;
+                        float halfHeight = texture.PixelHeight*0.5f;
+
+                        var vertices = _vertexCache.Next(4);
+                        vertices[0].Pos = new Vector3(-(width) - CapLeftOffset, -halfHeight, z + capZOffset);
+                        vertices[1].Pos = new Vector3(-(width) - CapLeftOffset, halfHeight, z + capZOffset);
+                        vertices[2].Pos = new Vector3(-CapLeftOffset, halfHeight, z + capZOffset);
+                        vertices[3].Pos = new Vector3(-CapLeftOffset, -halfHeight, z + capZOffset);
+
+                        vertices[0].Color = ColorRgba.White;
+                        vertices[1].Color = ColorRgba.White;
+                        vertices[2].Color = ColorRgba.White;
+                        vertices[3].Color = ColorRgba.White;
+
+                        var uvs = new Rect(0f, 0f, 1f, 1f);
+
+                        vertices[0].TexCoord = uvs.TopLeft;
+                        vertices[1].TexCoord = uvs.BottomLeft;
+                        vertices[2].TexCoord = uvs.BottomRight;
+                        vertices[3].TexCoord = uvs.TopRight;
+
+                        for (int j = 0; j < vertices.Length; j++)
+                        {
+                            vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
+                                Matrix4.CreateRotationZ(angle)*
+                                Matrix4.CreateTranslation(new Vector3(point2.Pos))*
+                                Matrix4.CreateScale(actualScale)*
+                                Matrix4.CreateTranslation(actualPosition));
+                        }
+
+                        device.AddVertices(material, VertexMode.Quads, vertices);
                     }
 
-                    device.AddVertices(material, VertexMode.Quads, vertices);
+                    if (useRightCap && RightCapMaterial.IsAvailable)
+                    {
+                        material = RightCapMaterial;
+                        texture = material.Res.MainTexture.Res;
+                        float width = texture.PixelWidth;
+                        float halfHeight = texture.PixelHeight*0.5f;
+
+                        var vertices = _vertexCache.Next(4);
+                        vertices[0].Pos = new Vector3(CapRightOffset, -halfHeight, z + capZOffset);
+                        vertices[1].Pos = new Vector3(CapRightOffset, halfHeight, z + capZOffset);
+                        vertices[2].Pos = new Vector3(width + CapRightOffset, halfHeight, z + capZOffset);
+                        vertices[3].Pos = new Vector3(width + CapRightOffset, -halfHeight, z + capZOffset);
+
+                        vertices[0].Color = ColorRgba.White;
+                        vertices[1].Color = ColorRgba.White;
+                        vertices[2].Color = ColorRgba.White;
+                        vertices[3].Color = ColorRgba.White;
+
+                        var uvs = new Rect(0f, 0f, 1f, 1f);
+
+                        vertices[0].TexCoord = uvs.TopLeft;
+                        vertices[1].TexCoord = uvs.BottomLeft;
+                        vertices[2].TexCoord = uvs.BottomRight;
+                        vertices[3].TexCoord = uvs.TopRight;
+
+                        for (int j = 0; j < vertices.Length; j++)
+                        {
+                            vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
+                                Matrix4.CreateRotationZ(angle)*
+                                Matrix4.CreateTranslation(new Vector3(point1.Pos))*
+                                Matrix4.CreateScale(actualScale)*
+                                Matrix4.CreateTranslation(actualPosition));
+                        }
+
+                        device.AddVertices(material, VertexMode.Quads, vertices);
+                    }
                 }
-
-                if (useRightCap && RightCapMaterial.IsAvailable)
+                // TODO: bottom caps uv mapping and positioning... do debug lines first
+                // Bottom caps are flipped, that's why we use flags for the other side
+                if (side == Side.Bottom)
                 {
-                    material = RightCapMaterial;
-                    texture = material.Res.MainTexture.Res;
-                    float width = texture.PixelWidth;
-                    float halfHeight = texture.PixelHeight * 0.5f;
-
-                    var vertices = _vertexCache.Next(4);
-                    vertices[0].Pos = new Vector3(CapRightOffset, -halfHeight, z + capZOffset);
-                    vertices[1].Pos = new Vector3(CapRightOffset, halfHeight, z + capZOffset);
-                    vertices[2].Pos = new Vector3(width + CapRightOffset, halfHeight, z + capZOffset);
-                    vertices[3].Pos = new Vector3(width + CapRightOffset, -halfHeight, z + capZOffset);
-
-                    vertices[0].Color = ColorRgba.White;
-                    vertices[1].Color = ColorRgba.White;
-                    vertices[2].Color = ColorRgba.White;
-                    vertices[3].Color = ColorRgba.White;
-
-                    var uvs = new Rect(0f, 0f, 1f, 1f);
-
-                    vertices[0].TexCoord = uvs.TopLeft;
-                    vertices[1].TexCoord = uvs.BottomLeft;
-                    vertices[2].TexCoord = uvs.BottomRight;
-                    vertices[3].TexCoord = uvs.TopRight;
-
-                    for (int j = 0; j < vertices.Length; j++)
+                    if (useRightCap && BottomLeftCapMaterial.IsAvailable)
                     {
-                        vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
-                            Matrix4.CreateRotationZ(angle) *
-                            Matrix4.CreateTranslation(new Vector3(point1.Pos)) *
-                            Matrix4.CreateScale(actualScale) *
-                            Matrix4.CreateTranslation(actualPosition));
+                        material = BottomLeftCapMaterial;
+                        texture = material.Res.MainTexture.Res;
+                        float width = texture.PixelWidth;
+                        float halfHeight = texture.PixelHeight * 0.5f;
+
+                        var vertices = _vertexCache.Next(4);
+
+                        vertices[0].Pos = new Vector3(0, -halfHeight, z + capZOffset);
+                        vertices[1].Pos = new Vector3(0, halfHeight, z + capZOffset);
+                        vertices[2].Pos = new Vector3(width, halfHeight, z + capZOffset);
+                        vertices[3].Pos = new Vector3(width, -halfHeight, z + capZOffset);
+
+                        for (int j = 0; j < vertices.Length; j++)
+                            vertices[j].Pos += new Vector3(BottomCapLeftOffset, 0f, 0f);
+
+                        vertices[0].Color = ColorRgba.White;
+                        vertices[1].Color = ColorRgba.White;
+                        vertices[2].Color = ColorRgba.White;
+                        vertices[3].Color = ColorRgba.White;
+
+                        var uvs = new Rect(0f, 0f, 1f, 1f);
+
+                        vertices[0].TexCoord = uvs.BottomRight;
+                        vertices[1].TexCoord = uvs.TopRight;
+                        vertices[2].TexCoord = uvs.TopLeft;
+                        vertices[3].TexCoord = uvs.BottomLeft;
+
+                        for (int j = 0; j < vertices.Length; j++)
+                        {
+                            vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
+                                Matrix4.CreateRotationZ(angle) *
+                                Matrix4.CreateTranslation(new Vector3(point1.Pos)) *
+                                Matrix4.CreateScale(actualScale) *
+                                Matrix4.CreateTranslation(actualPosition));
+                        }
+
+                        device.AddVertices(material, VertexMode.Quads, vertices);
                     }
 
-                    device.AddVertices(material, VertexMode.Quads, vertices);
+                    if (useLeftCap && BottomRightCapMaterial.IsAvailable)
+                    {
+                        material = BottomRightCapMaterial;
+                        texture = material.Res.MainTexture.Res;
+                        float width = texture.PixelWidth;
+                        float halfHeight = texture.PixelHeight * 0.5f;
+
+                        var vertices = _vertexCache.Next(4);
+                        vertices[0].Pos = new Vector3(-width, -halfHeight, z + capZOffset);
+                        vertices[1].Pos = new Vector3(-width, halfHeight, z + capZOffset);
+                        vertices[2].Pos = new Vector3(0, halfHeight, z + capZOffset);
+                        vertices[3].Pos = new Vector3(0, -halfHeight, z + capZOffset);
+
+                        for (int j = 0; j < vertices.Length; j++)
+                            vertices[j].Pos -= new Vector3(BottomCapRightOffset, 0f, 0f);
+
+                        vertices[0].Color = ColorRgba.White;
+                        vertices[1].Color = ColorRgba.White;
+                        vertices[2].Color = ColorRgba.White;
+                        vertices[3].Color = ColorRgba.White;
+
+                        var uvs = new Rect(0f, 0f, 1f, 1f);
+
+                        vertices[0].TexCoord = uvs.BottomRight;
+                        vertices[1].TexCoord = uvs.TopRight;
+                        vertices[2].TexCoord = uvs.TopLeft;
+                        vertices[3].TexCoord = uvs.BottomLeft;
+
+                        for (int j = 0; j < vertices.Length; j++)
+                        {
+                            vertices[j].Pos = Vector3.Transform(vertices[j].Pos,
+                                Matrix4.CreateRotationZ(angle) *
+                                Matrix4.CreateTranslation(new Vector3(point2.Pos)) *
+                                Matrix4.CreateScale(actualScale) *
+                                Matrix4.CreateTranslation(actualPosition));
+                        }
+
+                        device.AddVertices(material, VertexMode.Quads, vertices);
+                    }
                 }
             });
         }
