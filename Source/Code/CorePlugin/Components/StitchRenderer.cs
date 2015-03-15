@@ -34,8 +34,8 @@ namespace TextureStitch.Components
         public float BottomCapLeftOffset { get; set; }
         public float BottomCapRightOffset { get; set; }
 
-        public float LeftSideOffset { get; set; }
-        public float RightSideOffset { get; set; }
+        //public float LeftSideOffset { get; set; }
+        //public float RightSideOffset { get; set; }
 
         public Vector2 FillUvOffset { get; set; }
         public float FillScale { get; set; }
@@ -373,20 +373,20 @@ namespace TextureStitch.Components
                 localNodes.Add(NextNode(point2).Pos);
 
                 // TODO: do this for meshes aswell, and generalize offsets on all sizes to a better datamodel
-                if (side == Side.Left)
-                {
-                    for (int j = 0; j < localNodes.Count; j++)
-                    {
-                        localNodes[j] += new Vector2(LeftSideOffset, 0);
-                    }
-                }
-                else if (side == Side.Right)
-                {
-                    for (int j = 0; j < localNodes.Count; j++)
-                    {
-                        localNodes[j] += new Vector2(RightSideOffset, 0);
-                    }
-                }
+                //if (side == Side.Left)
+                //{
+                //    for (int j = 0; j < localNodes.Count; j++)
+                //    {
+                //        localNodes[j] += new Vector2(LeftSideOffset, 0) * Vector2.FromAngleLength(angle, 1f);
+                //    }
+                //}
+                //else if (side == Side.Right)
+                //{
+                //    for (int j = 0; j < localNodes.Count; j++)
+                //    {
+                //        localNodes[j] += RightSideOffset * Vector2.FromAngleLength(angle, 1f);
+                //    }
+                //}
 
                 for (int k = 1; k < localNodes.Count - 2; k++)
                 {

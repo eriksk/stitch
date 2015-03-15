@@ -12,7 +12,7 @@
   </size>
   <sourcePath />
   <texSizeMode dataType="Enum" type="Duality.Resources.Texture+SizeMode" name="NonPowerOfTwo" value="2" />
-  <wrapX dataType="Enum" type="OpenTK.Graphics.OpenGL.TextureWrapMode" name="Repeat" value="10497" />
+  <wrapX dataType="Enum" type="OpenTK.Graphics.OpenGL.TextureWrapMode" name="Clamp" value="10496" />
   <wrapY dataType="Enum" type="OpenTK.Graphics.OpenGL.TextureWrapMode" name="Clamp" value="10496" />
 </root>
 <!-- XmlFormatterBase Document Separator -->
